@@ -3,19 +3,21 @@ using System.Collections;
 
 public class LoadLevel : MonoBehaviour {
 
-	bool collided;
+
 	public string sceneName;
 	public Transform spawnDirection;
 
+	private bool _collided;
 	private Transform _playerTransform;
 
 
 	IEnumerator OnTriggerEnter(Collider collider) {
-		collided = true;
+		_collided = true;
 
-		if (collided) {
-			// Store spawnlocation in SpawnData
-			SpawnData.control.spawnPosition = new Vector3(spawnDirection.position.x, 0 ,spawnDirection.position.z);
+		if (_collided) {
+			// Store spawnDirection position in spawnPosition
+			SpawnData.control.spawnPosition = spawnDirection.position;
+			// Store spawnDirection facing in spawnFacing
 			SpawnData.control.spawnFacing = spawnDirection.rotation;
 			float fadeTime = GameObject.Find("Fader").GetComponent<Fader>().BeginFade(1);
 			yield return new WaitForSeconds (fadeTime);
@@ -24,11 +26,11 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	void OnCollisionExit () {
-		collided = false;
+		_collided = false;
 	}
 
 	void OnLevelWasLoaded () {
-		// Place player on the spawnlocation
+		// Place player on the spawnlocation with the right facing
 		_playerTransform = GameObject.Find("PlayerSetup").GetComponent<Transform>();
 		_playerTransform.position = SpawnData.control.spawnPosition;
 		_playerTransform.rotation = SpawnData.control.spawnFacing;
