@@ -21,6 +21,7 @@ public class CNJoystick : CNAbstractController
     /// </summary>
     public bool IsHiddenIfNotTweaking { get { return _isHiddenIfNotTweaking; } set { _isHiddenIfNotTweaking = value; } }
 
+	private Vector3 FromBasePosition;
     // Serialized fields (user preferences)
     // We also hide them in the inspector so it's not shown automatically
     [SerializeField]
@@ -145,11 +146,8 @@ public class CNJoystick : CNAbstractController
         // Now we need to find a directional vector from the center of the joystick
         // to the touch position
         Vector3 differenceVector = (worldTouchPosition - _baseTransform.position);
-		fromBasePosition = _baseTransform.position - _stickTransform.position;
+		FromBasePosition = _baseTransform.position - _stickTransform.position;
 
-		if (fromBasePosition.sqrMagnitude >= (DragRadius * DragRadius)) {
-			Debug.Log ("RUN");
-		}
         // If we're out of the drag range
         if (differenceVector.sqrMagnitude >
             DragRadius * DragRadius)
@@ -187,5 +185,10 @@ public class CNJoystick : CNAbstractController
         _stickTransform.position = 
             _baseTransform.position = ParentCamera.ScreenToWorldPoint(touch.position);
     }
+
+	public Vector3 getFromBasePosition() 
+	{
+		return FromBasePosition;
+	}
 
 }

@@ -1,8 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LoadLevel.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\LoadLevel.cs" Line="29" Column="12" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="68" Column="16" />
+      <File FileName="Assets\Scripts\LoadLevel.cs" Line="19" Column="8" />
+      <File FileName="Assets\Qualcomm Augmented Reality\Scripts\KeepAliveBehaviour.cs" Line="18" Column="1" />
+      <File FileName="Assets\Scripts\SpawnData.cs" Line="10" Column="23" />
+      <File FileName="Assets\Scripts\EnterWorld.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Init.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Fader.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CNJoystick.cs" Line="191" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

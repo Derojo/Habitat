@@ -7,6 +7,7 @@ public class SpawnData : MonoBehaviour {
 	public static SpawnData control;
 	public Vector3 spawnPosition;
 	public Quaternion spawnFacing;
+	public bool isSpawned = false;
 
 	void Awake() {
 		if (control == null) {

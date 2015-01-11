@@ -15,4 +15,5 @@ using UnityEngine;
 [RequireComponent(typeof (QCARBehaviour))]
 public class KeepAliveBehaviour : KeepAliveAbstractBehaviour
 {
+
 }
