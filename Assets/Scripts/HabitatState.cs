@@ -48,8 +48,6 @@ public class HabitatState : MonoBehaviour {
 		
 		
 		GUI.skin = habitatSkin;
-		
-		Debug.Log("status:"+status);
 
 		
 		if (status == Status.Running && statusTracking==StatusTracking.NotTracking)
@@ -66,8 +64,7 @@ public class HabitatState : MonoBehaviour {
 	/// 
 	private void DrawTargetWindow ()
 	{
-		Debug.Log (targetWidth);
-		Debug.Log (targetHeight);
+
 		//GUI.Box(new Rect(0, 0, LigaboUtils.screenWidth, LigaboUtils.screenHeight), "", GUI.skin.GetStyle("scoreboard") );
 		GUI.Box(new Rect(Screen.width/2-targetWidth/2,Screen.height/2-targetHeight/2,targetWidth,targetHeight),"",GUI.skin.GetStyle("targetFinder"));
 

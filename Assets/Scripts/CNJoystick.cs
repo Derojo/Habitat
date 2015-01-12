@@ -191,4 +191,47 @@ public class CNJoystick : CNAbstractController
 		return FromBasePosition;
 	}
 
+	public float GetCameraFix(Camera cameraObject = null) {
+		if (cameraObject==null)
+			cameraObject = Camera.main;
+		
+		float ent = 100000.0f;
+		Vector3 point1 = Vector3.zero;
+		Vector3 point2 = Vector3.zero;
+		Plane plane = new Plane(Vector3.up,Vector3.zero);
+		
+		//raycast to zero plane from center of screen
+		Ray ray= cameraObject.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
+		
+		if (plane.Raycast(ray, out ent))
+		{
+			//Debug.Log("Plane Raycast hit at distance: " + ent);
+			point1= ray.GetPoint(ent);
+		}
+		
+		//raycast to zero plane from center bottom of the screen
+		ray= Camera.main.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height,0));
+		ent = 100000.0f;
+		if (plane.Raycast(ray, out ent))
+		{
+			//Debug.Log("Plane Raycast hit at distance: " + ent);
+			point2= ray.GetPoint(ent);
+		}
+		
+		//if we have both hits, we return angle between them and global Z axis
+		if (point1!=Vector3.zero && point2!=Vector3.zero)
+		{
+			//Debug.Log("GetCameraFix got hit");
+			Vector3 direction = point2-point1;
+			//check for position
+			float position = Mathf.Sign(Vector3.Dot(Vector3.Cross(Vector3.Cross (Vector3.forward, direction), Vector3.forward), Vector3.right));
+			//occationaly can be 0 if exactly on line
+			if (position==0) position=1;
+			return Vector3.Angle(Vector3.forward, direction)*position;	
+			
+		}
+		
+		return 0;
+	}
+
 }

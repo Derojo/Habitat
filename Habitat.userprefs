@@ -1,14 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\HabitatState.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\HabitatState.cs" Line="100" Column="138" />
+      <File FileName="Assets\Scripts\HabitatState.cs" Line="54" Column="4" />
       <File FileName="..\..\Documenten\Astro\Assets\Scripts\Utility\ZeusInput.cs" Line="1" Column="1" />
       <File FileName="..\..\Documenten\Astro\Assets\Scripts\GUI\MenuGUI.cs" Line="1" Column="1" />
-      <File FileName="..\..\Documenten\Astro\Assets\Plugins\Ligabo\scripts\LigaboUtils.cs" Line="20" Column="1" />
-      <File FileName="..\..\Documenten\Astro\Assets\Plugins\Ligabo\scripts\controlers\Joystick.cs" Line="1" Column="1" />
       <File FileName="Assets\Qualcomm Augmented Reality\Scripts\DefaultTrackableEventHandler.cs" Line="67" Column="35" />
-      <File FileName="Assets\Scripts\SpawnData.cs" Line="14" Column="4" />
+      <File FileName="Assets\Scripts\SpawnData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CNJoystick.cs" Line="196" Column="19" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="83" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

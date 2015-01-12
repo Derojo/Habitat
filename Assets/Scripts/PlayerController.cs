@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		Debug.Log (MovementJoystick.GetCameraFix (GameObject.Find("ARCamera").GetComponent<Camera>()));
 		Vector3 movement = new Vector3(
 			MovementJoystick.GetAxis("Horizontal"),
 			0f,
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
 	private void CommonMovementMethod(Vector3 movement)
 	{
 		movement.y = 0f;
+		movement = Quaternion.AngleAxis(MovementJoystick.GetCameraFix (GameObject.Find("ARCamera").GetComponent<Camera>()), Vector3.up) * movement;
 		movement.Normalize();
 		_acceleration = Mathf.Round(MovementJoystick.getFromBasePosition ().sqrMagnitude * 100f) / 100f;
 
