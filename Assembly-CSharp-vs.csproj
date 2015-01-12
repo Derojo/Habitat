@@ -82,6 +82,7 @@
      <Compile Include="Assets\Scripts\CNTouchpad.cs" />
      <Compile Include="Assets\Scripts\EnterWorld.cs" />
      <Compile Include="Assets\Scripts\Fader.cs" />
+     <Compile Include="Assets\Scripts\HabitatState.cs" />
      <Compile Include="Assets\Scripts\Init.cs" />
      <Compile Include="Assets\Scripts\LoadLevel.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />

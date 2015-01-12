@@ -81,7 +81,8 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
             component.enabled = true;
         }
 
-        Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
+		HabitatState.statusTracking=HabitatState.StatusTracking.Tracking;
+//        Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
     }
 
 
@@ -102,7 +103,8 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
             component.enabled = false;
         }
 
-        Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
+		HabitatState.statusTracking=HabitatState.StatusTracking.NotTracking;
+//        Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
     }
 
     #endregion // PRIVATE_METHODS
