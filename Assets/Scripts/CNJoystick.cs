@@ -21,7 +21,6 @@ public class CNJoystick : CNAbstractController
     /// </summary>
     public bool IsHiddenIfNotTweaking { get { return _isHiddenIfNotTweaking; } set { _isHiddenIfNotTweaking = value; } }
 
-	private Vector3 FromBasePosition;
     // Serialized fields (user preferences)
     // We also hide them in the inspector so it's not shown automatically
     [SerializeField]
@@ -51,7 +50,7 @@ public class CNJoystick : CNAbstractController
     /// GameObject of a stick. Used for hiding
     /// </summary>
     private GameObject _baseGameObject;
-
+	private Vector3 FromBasePosition;
     /// <summary>
     /// Neat initialization method
     /// </summary>
@@ -78,7 +77,6 @@ public class CNJoystick : CNAbstractController
             _baseGameObject.gameObject.SetActive(true);
             _stickGameObject.gameObject.SetActive(true);
         }
-        
     }
 
     /// <summary>
@@ -117,22 +115,6 @@ public class CNJoystick : CNAbstractController
     }
 
     /// <summary>
-    /// Your favorite Update method where all the magic happens
-    /// </summary>
-    protected virtual void Update()
-    {
-        // Check for touches
-        if (TweakIfNeeded())
-                return;
-
-        Touch currentTouch;
-        if (IsTouchCaptured(out currentTouch))
-            // Place joystick under the finger 
-            // "No jumping" logic is also in this method
-            PlaceJoystickBaseUnderTheFinger(currentTouch);
-    }
-
-    /// <summary>
     /// Function for joystick tweaking (moving with the finger)
     /// The values of the Axis are also calculated here
     /// </summary>
@@ -147,12 +129,10 @@ public class CNJoystick : CNAbstractController
         // to the touch position
         Vector3 differenceVector = (worldTouchPosition - _baseTransform.position);
 		FromBasePosition = _baseTransform.position - _stickTransform.position;
-
         // If we're out of the drag range
         if (differenceVector.sqrMagnitude >
             DragRadius * DragRadius)
         {
-
             // Normalize this directional vector
             differenceVector.Normalize();
 
@@ -173,6 +153,13 @@ public class CNJoystick : CNAbstractController
         OnControllerMoved(differenceVector);
     }
 
+    protected override void MoreUpdateLogic(Touch capturedTouch)
+    {
+        // Place joystick under the finger 
+        // "No jumping" logic is also in this method
+        PlaceJoystickBaseUnderTheFinger(capturedTouch);
+    }
+
     /// <summary>
     /// Snap the joystick under the finger if it's expected
     /// </summary>
@@ -186,11 +173,12 @@ public class CNJoystick : CNAbstractController
             _baseTransform.position = ParentCamera.ScreenToWorldPoint(touch.position);
     }
 
+	
 	public Vector3 getFromBasePosition() 
 	{
 		return FromBasePosition;
 	}
-
+	
 	public float GetCameraFix(Camera cameraObject = null) {
 		if (cameraObject==null)
 			cameraObject = Camera.main;
@@ -233,5 +221,5 @@ public class CNJoystick : CNAbstractController
 		
 		return 0;
 	}
-
+	
 }

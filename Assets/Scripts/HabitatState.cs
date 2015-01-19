@@ -30,7 +30,6 @@ public class HabitatState : MonoBehaviour {
 	
 	public void Awake()
 	{
-		DontDestroyOnLoad(gameObject);
 		HabitatState.instance = this;
 	}
 	

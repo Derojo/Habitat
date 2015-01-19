@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		Debug.Log (MovementJoystick.GetCameraFix (GameObject.Find("ARCamera").GetComponent<Camera>()));
 		Vector3 movement = new Vector3(
 			MovementJoystick.GetAxis("Horizontal"),
 			0f,
@@ -47,7 +46,6 @@ public class PlayerController : MonoBehaviour
 
 		// Animation handle
 		if (movement != _currentPosition) {
-			Debug.Log (_acceleration);
 			if(_acceleration >= 1.5) {
 				_animator.Play(Run);
 			}
