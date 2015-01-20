@@ -14,7 +14,7 @@ public class Fader : MonoBehaviour
 		// fade out/in
 		alpha += fadeDir * fadeSpeed * Time.deltaTime;
 		// force the alpha number between 0 and 1
-		alpha = Mathf.Clamp01(alpha);
+		alpha = Mathf.Clamp01 (alpha);
 		// Set the GUI fading color
 		GUI.color = new Color (GUI.color.r, GUI.color.g, GUI.color.b, alpha);
 		GUI.depth = drawDepth; // make the texture render on top

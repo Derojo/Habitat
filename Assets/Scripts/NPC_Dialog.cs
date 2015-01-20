@@ -25,33 +25,33 @@ public class NPC_Dialog : MonoBehaviour {
 //		GUI.Button (new Rect (Screen.width / 3, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), CallButtons [0]);
 //		GUI.Button (new Rect ((Screen.width /100) * 55, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), CallButtons [1]);
 
-		if (QuestManager.DisplayQuestlog) {
+		if (Library.habitat.questData.displayQuestlog) {
 			GUI.Box(centered, QuestTitle);
-			if(!QuestManager.ActiveQuest) {
+			if(!Library.habitat.questData.activeQuest) {
 				GUI.Label(centered, QuestStates [0]);
 				// Draw acceptbutton
 				if( GUI.Button (new Rect (Screen.width / 3, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), CallButtons [0])) {
 					// Activate quest if we click the right button
 					Debug.Log ("Activate Quest");
-					QuestManager.ActiveQuest = true;
-					QuestManager.DisplayQuestlog = false;
+					Library.habitat.questData.activeQuest = true;
+					Library.habitat.questData.displayQuestlog = false;
 				}
 				if(GUI.Button (new Rect ((Screen.width /100) * 55, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), CallButtons [1])) {
-					QuestManager.DisplayQuestlog = false;
+					Library.habitat.questData.displayQuestlog = false;
 				}
 			} 
-			else if (QuestManager.ActiveQuest && !QuestManager.CompleteQuest) {
+			else if (Library.habitat.questData.activeQuest && !Library.habitat.questData.completeQuest) {
 				GUI.Label(centered, QuestStates [1]);
 			}
 		}
 	}
 
 	void OnTriggerEnter() {
-		QuestManager.DisplayQuestlog = true;
+		Library.habitat.questData.displayQuestlog = true;
 	}
 
 	void OnTriggerExit() {
-		QuestManager.DisplayQuestlog = false;
+		Library.habitat.questData.displayQuestlog = false;
 	}
 
 }
