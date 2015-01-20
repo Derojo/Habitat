@@ -14,21 +14,16 @@ using System.Collections;
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-			if(Application.GetStreamProgressForLevel("Initialize") ==1){
-			Debug.Log("Test");
-			}
-	}
 
 	void OnGUI()
 	{
 		//scherm meescalen
+		GUI.depth = 1;
 		GUI.matrix = Matrix4x4.TRS (Vector3.zero, Quaternion.identity, new Vector3 (Screen.width / 1024.0f, Screen.height / 768.0f, 1.0f));
 
 		if (skin != null)
 		GUI.skin = skin;
+
 		//menu naam oproepen
 
 		//GUI.DrawTexture( new Rect(Screen.width/2, -100, Screen.width * 0.8f, Screen.height * 0.8f), habitat1);
@@ -42,7 +37,8 @@ using System.Collections;
 		GUI.DrawTexture(new Rect (275, -50, 500, 500), habitat1);
 		if (GUI.Button (new Rect (370, 300, 300, 100), "NIEUW SPEL")) 
 		{
-			Application.LoadLevel ("Loader");
+			Loader.activeLoading = true;
+			Application.LoadLevel("Initialize");
 		}
 
 		GUI.Button (new Rect (370, 450, 300, 100), "OPTIES");

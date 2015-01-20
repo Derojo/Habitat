@@ -26,6 +26,7 @@ public class LoadLevel : MonoBehaviour {
 
 			float fadeTime = GameObject.Find("Fader").GetComponent<Fader>().BeginFade(1);
 			yield return new WaitForSeconds (fadeTime);
+			Loader.activeLoading = true;
 			Application.LoadLevel(sceneName);
 		}
 	}
