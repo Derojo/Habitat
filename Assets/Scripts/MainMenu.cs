@@ -17,7 +17,9 @@ using System.Collections;
 	
 	// Update is called once per frame
 	void Update () {
-	
+			if(Application.GetStreamProgressForLevel("Initialize") ==1){
+			Debug.Log("Test");
+			}
 	}
 
 	void OnGUI()
@@ -40,7 +42,7 @@ using System.Collections;
 		GUI.DrawTexture(new Rect (275, -50, 500, 500), habitat1);
 		if (GUI.Button (new Rect (370, 300, 300, 100), "NIEUW SPEL")) 
 		{
-			Application.LoadLevel ("Initialize");
+			Application.LoadLevel ("Loader");
 		}
 
 		GUI.Button (new Rect (370, 450, 300, 100), "OPTIES");
