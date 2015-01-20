@@ -16,13 +16,14 @@ public class LoadLevel : MonoBehaviour {
 
 		if (_collided) {
 			// First contact with portal
-			if(!SpawnData.control.isSpawned) {
-				SpawnData.control.isSpawned = true;
+			if(!Library.habitat.spawnData.isSpawned) {
+				Library.habitat.spawnData.isSpawned = true;
 			}
 			// Store spawnDirection position in spawnPosition
-			SpawnData.control.spawnPosition = spawnDirection.position;
+			Library.habitat.spawnData.spawnPosition = (string)spawnDirection.position.ToString();
 			// Store spawnDirection facing in spawnFacing
-			SpawnData.control.spawnFacing = spawnDirection.rotation;
+			Library.habitat.spawnData.spawnFacing = (string)spawnDirection.rotation.ToString ();
+
 			float fadeTime = GameObject.Find("Fader").GetComponent<Fader>().BeginFade(1);
 			yield return new WaitForSeconds (fadeTime);
 			Application.LoadLevel(sceneName);
@@ -35,10 +36,12 @@ public class LoadLevel : MonoBehaviour {
 
 	void OnLevelWasLoaded () {
 		// Place player on the spawnlocation with the right facing
-		if (SpawnData.control.isSpawned) {
+		if (Library.habitat.spawnData.isSpawned) {
 			_playerTransform = GameObject.Find ("PlayerSetup").GetComponent<Transform> ();
-			_playerTransform.position = SpawnData.control.spawnPosition;
-			_playerTransform.rotation = SpawnData.control.spawnFacing;
+			_playerTransform.position = Library.habitat.getVector3(Library.habitat.spawnData.spawnPosition);
+			_playerTransform.rotation = Library.habitat.getQuaternion(Library.habitat.spawnData.spawnFacing);
 		}
+		// Store current spawn map
+		Library.habitat.spawnData.spawnMap = Application.loadedLevelName;
 	}
 }

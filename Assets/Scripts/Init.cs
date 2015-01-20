@@ -7,7 +7,7 @@ public class Init : MonoBehaviour {
 
 	void Start () 
 	{
-		if (!SpawnData.control.isSpawned) {
+		if (!Library.habitat.spawnData.isSpawned) {
 			GameObject.Find ("Fader").GetComponent<Fader> ().BeginFade (-1);
 			PlayerSetup.SetActive (true);
 		}

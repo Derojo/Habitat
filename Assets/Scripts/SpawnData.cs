@@ -2,20 +2,18 @@
 using System.Collections;
 
 // Persistent spawn data between scenes
-public class SpawnData : MonoBehaviour {
+[System.Serializable]
+public class SpawnData {
 
-	public static SpawnData control;
-	public Vector3 spawnPosition;
-	public Quaternion spawnFacing;
-	public bool isSpawned = false;
+	public string spawnPosition;
+	public string spawnFacing;
+	public string spawnMap;
+	public bool isSpawned;
 
-	void Awake() {
-		if (control == null) {
-			DontDestroyOnLoad(gameObject);
-			control = this;		
-		} 
-		else if (control != this) {
-			Destroy (gameObject);		
-		}
+	public SpawnData() {
+		this.spawnPosition = "";
+		this.spawnFacing = "";
+		this.spawnMap = "Home";
+		this.isSpawned = false; 
 	}
 }

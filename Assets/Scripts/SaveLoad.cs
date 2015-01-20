@@ -6,7 +6,7 @@ using System.IO;
 
 public static class SaveLoad {
 
-
+	// file reference for testing: C:/Users/Rowin/AppData/LocalLow/Group1/Habitat/habitatData.gd
 			
 	//it's static so we can call it from anywhere
 	public static void Save() {

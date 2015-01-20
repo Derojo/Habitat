@@ -39,8 +39,7 @@ public class HabitatState : MonoBehaviour {
 	}	
 	
 	/// <summary>
-	/// Monobehaviour method used to show information find target overlay
-	/// 
+	/// Method to show DrawTargetWindow if we lose focus
 	/// </summary>
 	void OnGUI(){
 		if (doNotUseFindTargetGUI)
@@ -57,14 +56,10 @@ public class HabitatState : MonoBehaviour {
 
 	}
 	
-	/// <summary>
-	/// This function is drawing find target information GUI window.
-	/// </summary>
-	/// 
-	/// 
+
+	/// Draw targetfinder and information to get the focus back on the game board
 	private void DrawTargetWindow ()
 	{
-
 		//GUI.Box(new Rect(0, 0, LigaboUtils.screenWidth, LigaboUtils.screenHeight), "", GUI.skin.GetStyle("scoreboard") );
 		GUI.Box(new Rect(Screen.width/2-targetWidth/2,Screen.height/2-targetHeight/2,targetWidth,targetHeight),"",GUI.skin.GetStyle("targetFinder"));
 
@@ -74,7 +69,12 @@ public class HabitatState : MonoBehaviour {
 		
 		var labelRect = new Rect(Screen.width/2-boardWidth/2*0.9f, Screen.height/2-40,boardWidth*0.9f,80);
 		GUI.Label(labelRect,"",GUI.skin.GetStyle("labelCenterWithBack"));
-		GUI.Label(labelRect,"Richt je camera op het game board",GUI.skin.GetStyle("labelCenterWithBack"));
+		GUI.Label(labelRect,"Richt je camera op het game board", GUI.skin.GetStyle("labelCenterWithBack"));
 
+	}
+
+	// Auto save all data when the player is closing the game
+	void OnApplicationQuit() {
+		SaveLoad.Save ();
 	}
 }
