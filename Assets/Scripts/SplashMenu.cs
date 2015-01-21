@@ -8,15 +8,10 @@ public class SplashMenu : MonoBehaviour {
 	float fadeInTimer = 0.0f;
 	float fadeOutTimer = 0.0f;
 	public Texture habitat1 = null;
+	public Texture background = null;
 
-
-
-	// Update is called once per frame
 	void Update () 
 	{
-		Debug.Log (fadeOutTimer);
-
-
 		if (fadeInTimer < fadeInTime)
 		{
 			fadeInTimer += Time.deltaTime;
@@ -36,6 +31,7 @@ public class SplashMenu : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.color = color;
-		GUI.DrawTexture( new Rect(Screen.width * 0.1f, Screen.height * 0.1f, Screen.width * 0.8f, Screen.height * 0.8f), habitat1);
+		GUI.DrawTexture(new Rect(0, 0 , Screen.width, Screen.height), background);
+		GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), habitat1, ScaleMode.ScaleToFit, true);
 	}
 }
