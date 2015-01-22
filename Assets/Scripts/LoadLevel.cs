@@ -25,7 +25,7 @@ public class LoadLevel : MonoBehaviour {
 			Library.habitat.spawnData.spawnFacing = (string)spawnDirection.rotation.ToString ();
 
 			float fadeTime = GameObject.Find("Fader").GetComponent<Fader>().BeginFade(1);
-			yield return new WaitForSeconds (fadeTime);
+			yield return new WaitForSeconds(fadeTime);
 			Loader.activeLoading = true;
 			Application.LoadLevel(sceneName);
 		}
@@ -42,7 +42,9 @@ public class LoadLevel : MonoBehaviour {
 			_playerTransform.position = Library.habitat.getVector3(Library.habitat.spawnData.spawnPosition);
 			_playerTransform.rotation = Library.habitat.getQuaternion(Library.habitat.spawnData.spawnFacing);
 		}
+		// Load questItems if needed
 		// Store current spawn map
 		Library.habitat.spawnData.spawnMap = Application.loadedLevelName;
 	}
+
 }
