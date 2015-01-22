@@ -12,6 +12,8 @@ public class QuestData {
 	public bool completeQuest;
 	public string currentQuest;
 	public List<string> questParts;
+	public Dictionary<string, bool> questPartsFound;
+	public int partsFound;
 		
 	public QuestData() {
 		this.displayQuestlog = false;
@@ -19,6 +21,8 @@ public class QuestData {
 		this.completeQuest = false;
 		this.currentQuest = "";
 		this.questParts = new List<string> ();
+		this.questPartsFound =  new Dictionary<string, bool>();
+		this.partsFound = 0;
 	}
 
 }

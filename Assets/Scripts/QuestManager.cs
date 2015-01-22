@@ -3,30 +3,33 @@ using System.Collections;
 
 public class QuestManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-	
 	public static void spawnQuestObjectsOnLoad() {
 		
 		foreach(string partName in Library.habitat.questData.questParts)
 		{
-			GameObject _spawnPart = Instantiate(Resources.Load(partName)) as GameObject; 
-			if(_spawnPart.GetComponent<QuestItem>().partSpawnMap == Application.loadedLevelName) {
-				_spawnPart.transform.parent = GameObject.Find("Container").transform;
-				_spawnPart.name = partName;
-				_spawnPart.transform.localPosition = _spawnPart.transform.position;
-			} else {
-				Destroy (_spawnPart);
+			//Check if we need to spawn a part
+			if(!Library.habitat.questData.questPartsFound.ContainsKey(partName)) {
+				// Instantiate from resource folder
+				GameObject _spawnPart = Instantiate(Resources.Load(partName)) as GameObject; 
+				// Check if we are in the right scene
+				if(_spawnPart.GetComponent<QuestItem>().partSpawnMap == Application.loadedLevelName) {
+					// Set the right parent from hierarchy
+					_spawnPart.transform.parent = GameObject.Find("Container").transform;
+					_spawnPart.name = partName;
+					_spawnPart.transform.localPosition = _spawnPart.transform.position;
+				} else {
+					Destroy (_spawnPart);
+				}
 			}
 		}
 		
 	}
+
+	public static void activateQuestHUD() {
+		foreach (Transform child in GameObject.Find("QuestTrack").transform)
+		{
+			child.gameObject.SetActive(true);
+		}
+	}
+	
 }
