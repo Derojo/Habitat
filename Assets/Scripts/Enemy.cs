@@ -24,20 +24,24 @@ public class Enemy : MonoBehaviour {
 		maxDistance = 2;
 	}
 
-		void OnTriggerEnter (Collider other) 
+	void Update() {
+		if (follow) 
 		{
-			follow = true;
-			if (follow) 
-			{
-				myTransform.rotation = Quaternion.Slerp (myTransform.rotation, Quaternion.LookRotation (target.position - myTransform.position), rotationSpeed * Time.deltaTime);
-				if (Vector3.Distance (target.position, myTransform.position) > maxDistance) 
+			myTransform.rotation = Quaternion.Slerp (myTransform.rotation, Quaternion.LookRotation (target.position - myTransform.position), rotationSpeed * Time.deltaTime);
+			if (Vector3.Distance (target.position, myTransform.position) > maxDistance) 
 				myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
-			}
 		}
+	}
 
-		void OnTriggerExit (Collider other)
-		{
-			follow = false;
-		}
+	void OnTriggerEnter (Collider other) 
+	{
+		follow = true;
+
+	}
+
+	void OnTriggerExit (Collider other)
+	{
+		 follow = false;
+	}
 
 }
