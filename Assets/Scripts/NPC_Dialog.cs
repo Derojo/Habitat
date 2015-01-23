@@ -50,6 +50,7 @@ public class NPC_Dialog : MonoBehaviour {
 					// Add linked parts to the scene
 					spawnFlowerParts ();
 					// Add HUD progress
+					QuestManager.setQuestTrackTitle(questTitle);
 					QuestManager.activateQuestHUD();
 				}
 				if(GUI.Button (new Rect ((Screen.width /100) * 55, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), callButtons[1])) {

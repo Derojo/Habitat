@@ -31,5 +31,11 @@ public class QuestManager : MonoBehaviour {
 			child.gameObject.SetActive(true);
 		}
 	}
+
+	public static void setQuestTrackTitle(string _name) {
+		if (_name != null) {
+			GameObject.Find ("QuestTitle").GetComponent<GUIText>().text = _name;		
+		}
+	}
 	
 }
