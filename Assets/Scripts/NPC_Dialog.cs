@@ -45,13 +45,15 @@ public class NPC_Dialog : MonoBehaviour {
 					// Activate quest if we click the right button
 					Library.habitat.questData.activeQuest = true;
 					Library.habitat.questData.displayQuestlog = false;
+					Library.habitat.questData.currentQuest = questTitle;
 					// Remove questmark
 					questmark.SetActive(false);
 					// Add linked parts to the scene
-					spawnFlowerParts ();
 					// Add HUD progress
-					QuestManager.setQuestTrackTitle(questTitle);
 					QuestManager.activateQuestHUD();
+					QuestManager.setQuestTrackTitle(questTitle);
+					spawnFlowerParts ();
+					
 				}
 				if(GUI.Button (new Rect ((Screen.width /100) * 55, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), callButtons[1])) {
 					Library.habitat.questData.displayQuestlog = false;
@@ -85,6 +87,7 @@ public class NPC_Dialog : MonoBehaviour {
 			}
 
 		}
+		QuestManager.spawnQuestObjectsOnLoad ();
 	}
 
 }

@@ -68,7 +68,7 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
     {
         Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
         Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-		GUIText[] HUD = GameObject.Find ("HUD").GetComponentsInChildren<GUIText> (true);
+//		GUIText[] HUD = GameObject.Find ("HUD").GetComponentsInChildren<GUIText> (true);
 
         // Enable rendering:
         foreach (Renderer component in rendererComponents)
@@ -81,11 +81,12 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
         {
             component.enabled = true;
         }
-		// Disable GUIText:
-		foreach (GUIText component in HUD)
-		{
-			component.enabled = true;
-		}
+//		// Disable GUIText:
+//		if (Library.habitat.questData.activeQuest) {
+//			foreach (GUIText component in HUD) {
+//				component.enabled = true;
+//			}
+//		}
 		HabitatState.statusTracking=HabitatState.StatusTracking.Tracking;
 //        Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
     }
@@ -95,7 +96,7 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
     {
         Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
         Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-		GUIText[] HUD = GameObject.Find("HUD").GetComponentsInChildren<GUIText> (true);
+//		GUIText[] HUD = GameObject.Find("HUD").GetComponentsInChildren<GUIText> (true);
         // Disable rendering:
         foreach (Renderer component in rendererComponents)
         {
@@ -109,11 +110,10 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
         }
 
 		// Disable GUIText:
-		foreach (GUIText component in HUD)
-		{
-			component.enabled = false;
-		}
-
+//		foreach (GUIText component in HUD)
+//		{
+//			component.enabled = false;
+//		}
 		HabitatState.statusTracking=HabitatState.StatusTracking.NotTracking;
 //        Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
     }

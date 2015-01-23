@@ -17,6 +17,7 @@ public class QuestManager : MonoBehaviour {
 					_spawnPart.transform.parent = GameObject.Find("Container").transform;
 					_spawnPart.name = partName;
 					_spawnPart.transform.localPosition = _spawnPart.transform.position;
+					_spawnPart.transform.localScale = _spawnPart.transform.lossyScale;
 				} else {
 					Destroy (_spawnPart);
 				}
