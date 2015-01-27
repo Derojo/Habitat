@@ -18,30 +18,34 @@ public class NPC_Dialog : MonoBehaviour {
 
 	void Awake() {
 		if (Library.habitat.questData.activeQuest) {
-			// Place exclamation mark above NPC
-			questmark.SetActive (false);
-			// Place flower parts
-			spawnFlowerParts();
-		} else if (Library.habitat.questData.completeQuest) {
-			// Place question mark above NPC
-			GameObject questFinished = Instantiate(questmarkFinished, questmark.transform.position, questmark.transform.rotation) as GameObject;
-			questFinished.transform.parent = GameObject.Find("Quest").transform;
+				// Place exclamation mark above NPC
+				questmark.SetActive (false);
+				// Place flower parts
+				spawnFlowerParts ();
 		}
 	}
 	
 	void OnGUI() {
+		// Dialog window
+
 		Rect centered = new Rect (Screen.width / 6, Screen.height / 6, Screen.width / 1.5f, Screen.height / 1.5f);
+		Rect label = new Rect (Screen.width / 6, Screen.height / 3, Screen.width / 1.5f, Screen.height / 1.5f);
+		// Gui skin
 		GUI.skin = habitatSkin;
-
-//		GUI.Button (new Rect (Screen.width / 3, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), callButtons [0]);
-//		GUI.Button (new Rect ((Screen.width /100) * 55, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), callButtons [1]);
-
+		// Fix font size for every resolution
+		GUI.skin.label.fontSize = Screen.width / 35;
+		GUI.skin.box.fontSize = Screen.width / 25;
+		GUI.skin.button.fontSize = Screen.width / 30;
+		// Quest structure
 		if (Library.habitat.questData.displayQuestlog) {
+			// Draw Overlay
+			GUI.Box(new Rect(0, 0, Screen.width, Screen.height),"", GUI.skin.GetStyle("overlay"));
+			// Draw Dialog window
 			GUI.Box(centered, questTitle);
 			if(!Library.habitat.questData.activeQuest) {
-				GUI.Label(centered, questStates [0]);
+				GUI.Label(label, questStates [0]);
 				// Draw acceptbutton
-				if( GUI.Button (new Rect (Screen.width / 3, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), callButtons[0])) {
+				if( GUI.Button (new Rect (Screen.width/5, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[0])) {
 					// Activate quest if we click the right button
 					Library.habitat.questData.activeQuest = true;
 					Library.habitat.questData.displayQuestlog = false;
@@ -55,20 +59,27 @@ public class NPC_Dialog : MonoBehaviour {
 					spawnFlowerParts ();
 					
 				}
-				if(GUI.Button (new Rect ((Screen.width /100) * 55, Screen.height / 1.6f, Screen.width / 7, Screen.height / 7), callButtons[1])) {
+				if(GUI.Button (new Rect ((Screen.width /100) * 55, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[1])) {
 					Library.habitat.questData.displayQuestlog = false;
 				}
 			} 
 			else if (Library.habitat.questData.activeQuest && !Library.habitat.questData.completeQuest) {
-				GUI.Label(centered, questStates [1]);
+				GUI.Label(label, questStates [1]);
 			}
 			else if (Library.habitat.questData.activeQuest && Library.habitat.questData.completeQuest) {
 				// Parts are found give player a new quest
-				GUI.Label(centered, questStates [1]);
+				GUI.Label(label, questStates [1]);
 			}
 		}
 	}
 
+	void OnLevelWasLoaded() {
+		if (Library.habitat.questData.completeQuest) {
+			// Place question mark above NPC
+			GameObject questFinished = Instantiate(questmarkFinished, questmark.transform.position, questmark.transform.rotation) as GameObject;
+			questFinished.transform.parent = GameObject.Find("Quest").transform;
+		}
+	}
 	void OnTriggerEnter() {
 		Library.habitat.questData.displayQuestlog = true;
 	}
@@ -76,7 +87,7 @@ public class NPC_Dialog : MonoBehaviour {
 	void OnTriggerExit() {
 		Library.habitat.questData.displayQuestlog = false;
 	}
-	
+
 	void spawnFlowerParts() {
 		foreach(GameObject Part in this.flowerParts) {
 			if(Part == null) {
@@ -89,5 +100,6 @@ public class NPC_Dialog : MonoBehaviour {
 		}
 		QuestManager.spawnQuestObjectsOnLoad ();
 	}
+	
 
 }

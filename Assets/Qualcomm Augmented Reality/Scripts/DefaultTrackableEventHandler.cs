@@ -81,7 +81,7 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
         {
             component.enabled = true;
         }
-//		// Disable GUIText:
+		// Disable GUIText:
 //		if (Library.habitat.questData.activeQuest) {
 //			foreach (GUIText component in HUD) {
 //				component.enabled = true;
