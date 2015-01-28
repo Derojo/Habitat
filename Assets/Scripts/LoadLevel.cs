@@ -25,7 +25,6 @@ public class LoadLevel : MonoBehaviour {
 			Library.habitat.spawnData.spawnFacing = (string)spawnDirection.rotation.ToString ();
 
 			float fadeTime = GameObject.Find("Fader").GetComponent<Fader>().BeginFade(1);
-			Debug.Log(fadeTime);
 			yield return new WaitForSeconds(fadeTime);
 			Loader.activeLoading = true;
 			Application.LoadLevel(sceneName);

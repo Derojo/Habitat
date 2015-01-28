@@ -6,21 +6,38 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
 	public float rotateSpeed = 15f;
-	
+
+	// Movement en model
 	public float movementSpeed = 5f;
 	public string playerModel;
-	public string Idle = "Idle";
-	public string Walk = "Walk";
-	public string Run = "Run";
 	public CNJoystick MovementJoystick;
-
 	private float _acceleration;
 	private Vector3 _currentPosition;
 	private CharacterController _characterController;
 	private Transform _transformCache;
 	private Transform _playerTransform;
 	private Transform _mainCameraTransform;
+
+	// Attack
+	public CNButton AttackButton;
+	public float damage = 25f;
+	private float cooldownRemaining = 0f;
+	private float _attackState = 0f;
+	private GameObject target;
+	private bool _isAttacking = false;
+
+	// Health
+	public float maxHealth = 100;
+
+	// Animation
 	private Animator _animator;
+	public string Idle = "Idle";
+	public string AttackIdle = "AttackIdle";
+	public string Walk = "Walk";
+	public string Run = "Run";
+	public string Punch = "Punch";
+
+
 
 	void Awake() {
 		DontDestroyOnLoad(gameObject);
@@ -31,12 +48,15 @@ public class PlayerController : MonoBehaviour
 		_transformCache = GetComponent<Transform>();
 		_playerTransform = _transformCache.FindChild(playerModel);
 		_animator = _playerTransform.GetComponent<Animator> ();
+		AttackButton.FingerTouchedEvent += fingerTouched;
+		AttackButton.FingerLiftedEvent += fingerLifted;
+		target = GameObject.FindGameObjectWithTag("Enemy");
 	}
 	
-	
-	// Update is called once per frame
+
 	void Update()
 	{
+		// Movement handle
 		Vector3 movement = new Vector3(
 			MovementJoystick.GetAxis("Horizontal"),
 			0f,
@@ -54,12 +74,26 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 		else {
-			_animator.Play(Idle);
+			if(!_isAttacking && cooldownRemaining < 0) {
+				if(_attackState < 0) {
+					_animator.Play(Idle);
+				} else {
+					_animator.Play (AttackIdle);
+				}
+			}
 			_currentPosition = movement;
 		}
 
+		// Attack handle
+		cooldownRemaining -= Time.deltaTime;
+		_attackState -= Time.deltaTime;
+
 	}
 	
+	/**
+	 * Movement area
+	 * 
+	 ***************************************************************/
 	private void CommonMovementMethod(Vector3 movement)
 	{
 		movement.y = 0f;
@@ -92,4 +126,73 @@ public class PlayerController : MonoBehaviour
 	}
 
 
+	/*
+	 * Player Health and Attack area
+	 * 
+	 * **************************************************************************************************/
+
+	public void ReceiveDamage ( float amt)
+	{
+		Library.habitat.playerData.curHealth += amt;
+
+		// We are dead, respawn
+		if (Library.habitat.playerData.curHealth <= 0)
+		{
+			// Set data back to 100%
+			Library.habitat.playerData.curHealth = 100;
+			// Start at home map
+			Application.LoadLevel("Home");
+		}
+
+		if (Library.habitat.playerData.curHealth > maxHealth)
+		{
+			Library.habitat.playerData.curHealth = maxHealth;
+		}
+		
+		if (maxHealth < 1) {
+			maxHealth = 1;
+		}
+	}
+
+	private void fingerTouched(CNAbstractController cnAbstractController)
+	{
+		// Set attack state
+		_attackState = 2f;
+		if (cooldownRemaining < 0) {
+			_isAttacking = true;
+			playerAttack ();
+			cooldownRemaining = 0.5f;
+		}
+	}
+
+	private void playerAttack()
+	{
+		_animator.Play(Punch);
+		//calculating distance between target en player
+		if(target != null) {
+			float distance = Vector3.Distance (target.transform.position, transform.position);
+			
+			Vector3 dir = (target.transform.position - transform.position).normalized;
+			
+			float direction = Vector3.Dot(dir, transform.forward);
+			Debug.Log (direction);
+			
+			//getting health script
+			Enemy health = target.GetComponent<Enemy>();
+			
+			if(health)
+			{
+				if(distance <= 2.5f && direction > 0)
+				{
+					health.ReceiveDamage(-10f);
+				}
+			}
+		}
+	}
+
+	private void fingerLifted(CNAbstractController cnAbstractController)
+	{
+		_isAttacking = false;
+	}
+	
 }

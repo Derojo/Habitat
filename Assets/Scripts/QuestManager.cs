@@ -9,6 +9,7 @@ public class QuestManager : MonoBehaviour {
 		{
 			// Check if the part is already spawned
 			if(GameObject.Find (partName) == null) {
+//				Debug.Log ("Part not spawned"+partName);
 				//Check whether or not the part is already found
 				if(!Library.habitat.questData.questPartsFound.ContainsKey(partName)) {
 					// Instantiate from resource folder

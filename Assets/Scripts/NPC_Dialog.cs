@@ -13,6 +13,7 @@ public class NPC_Dialog : MonoBehaviour {
 	public GUISkin habitatSkin;
 	public GameObject questmark;
 	public GameObject questmarkFinished;
+	public AudioClip blop;
 
 	// So we have a reference to the instanstiated questmarkFinished
 	private GameObject _questFinished;
@@ -22,11 +23,8 @@ public class NPC_Dialog : MonoBehaviour {
 		if (Library.habitat.questData.activeQuest || Library.habitat.questData.completeQuest) {
 			// Place exclamation mark above NPC
 			questmark.SetActive (false);
-			// Place flower parts
-			if (Library.habitat.questData.currentQuest == currentQuest [0]) {
-					spawnParts (flowerParts);
-			}
 		}
+//		Library.habitat.questData.currentQuest = currentQuest [1];
 	}
 	
 	void OnGUI() {
@@ -69,8 +67,7 @@ public class NPC_Dialog : MonoBehaviour {
 
 	void OnTriggerEnter() {
 		// play sound
-		AudioSource sound = gameObject.GetComponent<AudioSource>();
-		sound.Play();
+		audio.PlayOneShot (blop);
 		Library.habitat.questData.displayQuestlog = true;
 	}
 
@@ -84,6 +81,7 @@ public class NPC_Dialog : MonoBehaviour {
 				continue;
 			}
 			if(!Library.habitat.questData.questParts.Contains(Part.name)) {
+				Debug.Log (Part.name);
 				Library.habitat.questData.questParts.Add(Part.name);
 			}
 

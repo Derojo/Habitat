@@ -6,12 +6,11 @@ public class HUDManager : MonoBehaviour {
 
 	public GameObject QuestComplete = null;
 	public Color QuestCompleteTitleColor;
+	public GUISkin skin;
 	private bool activeQuestCompleteHUD = false;
 	private GameObject _QuestComplete;
 
 	void Update() {
-		Debug.Log (Library.habitat.questData.activeQuest);
-		Debug.Log (Library.habitat.questData.completeQuest);
 		if (HabitatState.statusTracking == HabitatState.StatusTracking.Tracking) {
 			if (Library.habitat.questData.activeQuest) {
 				GameObject.Find ("QuestTitle").GetComponent<GUIText> ().text = Library.habitat.questData.currentQuest;
@@ -39,5 +38,19 @@ public class HUDManager : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	void OnGUI()
+	{
+		float curHealth = Library.habitat.playerData.curHealth;
+		float maxHealth = GameObject.Find ("PlayerSetup").GetComponent<PlayerController> ().maxHealth;
+		float curhealthBar = Screen.width / 4 * (Library.habitat.playerData.curHealth / maxHealth);
+
+		GUI.skin = skin;
+		GUI.skin.GetStyle("playerHealthText").fontSize = Screen.width / 45;
+		GUI.Box(new Rect(10, 15, Screen.width / 4, Screen.width / 30 ), "", GUI.skin.GetStyle("playerHealthBar"));
+		GUI.Box(new Rect(10, 15, curhealthBar, Screen.width / 30 ), "", GUI.skin.GetStyle("playerCurHealthBar"));
+		GUI.Label(new Rect(10, 15, Screen.width / 4, Screen.width / 30 ), curHealth + "/" + maxHealth, GUI.skin.GetStyle("playerHealthText"));
+
 	}
 }
