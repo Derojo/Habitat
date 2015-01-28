@@ -11,11 +11,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void OnLevelWasLoaded() {
-			if (Library.habitat.questData.activeQuest) {
-				// Spawn quest objects
-				QuestManager.spawnQuestObjectsOnLoad ();
-				// Show HUD
-				QuestManager.activateQuestHUD ();
-			}
+		if (Library.habitat.questData.activeQuest) {
+			// Spawn quest objects
+			QuestManager.spawnQuestObjectsOnLoad ();
+			// Show HUD
+			QuestManager.activateQuestHUD(true);
+		}
 	}
 }

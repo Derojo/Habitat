@@ -68,9 +68,9 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
     {
         Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
         Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-//		GUIText[] HUD = GameObject.Find ("HUD").GetComponentsInChildren<GUIText> (true);
-
-        // Enable rendering:
+//		GUIText[] HUDText = GameObject.Find ("HUD").GetComponentsInChildren<GUIText> (true);
+		
+		// Enable rendering:
         foreach (Renderer component in rendererComponents)
         {
             component.enabled = true;
@@ -82,11 +82,14 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
             component.enabled = true;
         }
 		// Disable GUIText:
-//		if (Library.habitat.questData.activeQuest) {
-//			foreach (GUIText component in HUD) {
+//			foreach (GUITexture component in HUDTexture) {
 //				component.enabled = true;
 //			}
-//		}
+//		
+//			foreach (Camera component in HUDCamera) {
+//				component.enabled = true;
+//			}
+
 		HabitatState.statusTracking=HabitatState.StatusTracking.Tracking;
 //        Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
     }
@@ -96,7 +99,7 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
     {
         Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
         Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
-//		GUIText[] HUD = GameObject.Find("HUD").GetComponentsInChildren<GUIText> (true);
+		//		GUIText[] HUD = GameObject.Find("HUD").GetComponentsInChildren<GUIText> (true);
         // Disable rendering:
         foreach (Renderer component in rendererComponents)
         {
@@ -110,10 +113,14 @@ public class DefaultTrackableEventHandler : MonoBehaviour,
         }
 
 		// Disable GUIText:
-//		foreach (GUIText component in HUD)
-//		{
-//			component.enabled = false;
-//		}
+//			foreach (GUITexture component in HUDTexture) {
+//				component.enabled = false;
+//			}
+//
+//
+//			foreach (Camera component in HUDCamera) {
+//				component.enabled = false;
+//			}
 		HabitatState.statusTracking=HabitatState.StatusTracking.NotTracking;
 //        Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
     }
