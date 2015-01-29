@@ -24,7 +24,8 @@ public class HabitatState : MonoBehaviour {
 	public Status initialStatus = Status.Stopped;
 	private static float targetWidth = (Screen.width/2);
 	private float targetHeight = (targetWidth/100f)*70f;
-	
+	public AudioClip ambientSound;
+	private bool _isPLaying;
 	
 	public static HabitatState instance;
 	
@@ -49,9 +50,16 @@ public class HabitatState : MonoBehaviour {
 		GUI.skin = habitatSkin;
 
 		
-		if (status == Status.Running && statusTracking==StatusTracking.NotTracking)
+		if (status == Status.Running && statusTracking == StatusTracking.NotTracking) 
 		{
-			DrawTargetWindow();
+			DrawTargetWindow ();
+		} 
+		else 
+		{
+			if(!_isPLaying) {
+				//audio.PlayOneShot(ambientSound);
+				//_isPLaying = true;
+			}
 		}
 
 	}
