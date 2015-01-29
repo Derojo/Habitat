@@ -12,6 +12,13 @@ public class HUDManager : MonoBehaviour {
 	private bool activeTotalQuestCompleteHUD = false;
 	private GameObject _QuestComplete;
 	private GameObject _TotalComplete;
+	//button
+	public CNButton homeButton;
+
+	void Start()
+	{
+		homeButton.FingerTouchedEvent += homePressed;
+	}
 
 	void Update() {
 		if (HabitatState.statusTracking == HabitatState.StatusTracking.Tracking) {
@@ -70,4 +77,10 @@ public class HUDManager : MonoBehaviour {
 		_TotalComplete.transform.localScale = QuestComplete.transform.lossyScale;
 		activeTotalQuestCompleteHUD = true;
 	}
+
+	void homePressed(CNAbstractController cnAbstractController)
+	{
+		Application.LoadLevel ("MainMenu");
+	}
 }
+

@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour {
 	public AudioClip buzz;
 	private Transform myTransform;
 	public bool follow;
-	
+
 	void Awake () 
 	{
 		myTransform = transform;
