@@ -24,7 +24,10 @@ public class NPC_Dialog : MonoBehaviour {
 			// Place exclamation mark above NPC
 			questmark.SetActive (false);
 		}
-		Library.habitat.questData.currentQuest = currentQuest [1];
+		if (Library.habitat.questData.plantComplete) {
+			Destroy(transform.parent.gameObject);
+		}
+//		Library.habitat.questData.currentQuest = currentQuest [1];
 	}
 	
 	void OnGUI() {
@@ -48,11 +51,13 @@ public class NPC_Dialog : MonoBehaviour {
 				if(Library.habitat.questData.currentQuest == "" || Library.habitat.questData.currentQuest == currentQuest[0])
 				{
 					firstQuest();
+					Debug.Log ("first Quest");
 				}
 				// Start second quest [search_pollinator]
 				else if(Library.habitat.questData.currentQuest == currentQuest[1])
 				{
 					secondQuest();
+					Debug.Log ("Second Quest");
 				}
 			}
 
@@ -160,25 +165,23 @@ public class NPC_Dialog : MonoBehaviour {
 			if(GUI.Button (new Rect ((Screen.width /100) * 55, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[1])) {
 				Library.habitat.questData.displayQuestlog = false;
 			}
-			// We are still doing the quest
-			else if (Library.habitat.questData.activeQuest && !Library.habitat.questData.completeQuest) {
-				GUI.Label(label, questStates [4]);
+		}
+		// We are still doing the quest
+		else if (Library.habitat.questData.activeQuest && !Library.habitat.questData.completeQuest) {
+			GUI.Label(label, questStates [4]);
+		}
+		else if (Library.habitat.questData.activeQuest && Library.habitat.questData.completeQuest) {
+			// Parts are found give player a new quest
+			GUI.Label(label, questStates [5]);
+			Library.habitat.questData.plantComplete = true;
+			// Complete quest
+			if( GUI.Button (new Rect (Screen.width/2 -90, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[2])) {
+				Destroy (_questFinished);
+				// reset questdata
+				QuestManager.resetQuestData();
+				Application.LoadLevel ("Home");
 			}
-			else if (Library.habitat.questData.activeQuest && Library.habitat.questData.completeQuest) {
-				// Parts are found give player a new quest
-				GUI.Label(label, questStates [5]);
-				// Complete quest
-				if( GUI.Button (new Rect (Screen.width/2 -90, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[2])) {
-					Library.habitat.questData.plantComplete = true;
-					Destroy (_questFinished);
-					// reset questdata
-					QuestManager.resetQuestData();
-					// Set new quest
-					Library.habitat.questData.currentQuest = currentQuest[1];
-				}
-			}
-		} 
+		}
 	}
-	
 
 }
