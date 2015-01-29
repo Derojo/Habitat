@@ -57,8 +57,8 @@ public class HabitatState : MonoBehaviour {
 		else 
 		{
 			if(!_isPLaying) {
-				//audio.PlayOneShot(ambientSound);
-				//_isPLaying = true;
+				audio.PlayOneShot(ambientSound);
+				_isPLaying = true;
 			}
 		}
 

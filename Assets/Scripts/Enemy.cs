@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour {
 	public float damage = 5f;
 	//sounds
 	public AudioClip getHit;
-
+	public AudioClip buzz;
 	private Transform myTransform;
 	public bool follow;
 	
@@ -98,9 +98,10 @@ public class Enemy : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other) 
 	{
+
 		target.GetComponent<PlayerController>().inCombat = true;
 		follow = true;
-
+		audio.PlayOneShot (buzz);
 	}
 
 	void OnTriggerExit (Collider other)
