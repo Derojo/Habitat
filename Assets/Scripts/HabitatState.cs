@@ -25,7 +25,7 @@ public class HabitatState : MonoBehaviour {
 	private static float targetWidth = (Screen.width/2);
 	private float targetHeight = (targetWidth/100f)*70f;
 	public AudioClip ambientSound;
-	private bool _isPLaying;
+	private bool _isPLaying = false;
 	
 	public static HabitatState instance;
 	

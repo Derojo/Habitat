@@ -5,10 +5,13 @@ public class HUDManager : MonoBehaviour {
 	
 
 	public GameObject QuestComplete = null;
+	public GameObject TotalComplete = null;
 	public Color QuestCompleteTitleColor;
 	public GUISkin skin;
 	private bool activeQuestCompleteHUD = false;
+	private bool activeTotalQuestCompleteHUD = false;
 	private GameObject _QuestComplete;
+	private GameObject _TotalComplete;
 
 	void Update() {
 		if (HabitatState.statusTracking == HabitatState.StatusTracking.Tracking) {
@@ -29,6 +32,11 @@ public class HUDManager : MonoBehaviour {
 					_QuestComplete.transform.localPosition = QuestComplete.transform.position;
 					_QuestComplete.transform.localScale = QuestComplete.transform.lossyScale;
 					activeQuestCompleteHUD = true;
+				}
+			}
+			if(Library.habitat.questData.plantComplete) {
+				if(!activeTotalQuestCompleteHUD) {
+					playChangeWorldAnimation();
 				}
 			}
 			if(!Library.habitat.questData.completeQuest) {
@@ -52,5 +60,14 @@ public class HUDManager : MonoBehaviour {
 		GUI.Box(new Rect(10, 15, curhealthBar, Screen.width / 30 ), "", GUI.skin.GetStyle("playerCurHealthBar"));
 		GUI.Label(new Rect(10, 15, Screen.width / 4, Screen.width / 30 ), curHealth + "/" + maxHealth, GUI.skin.GetStyle("playerHealthText"));
 
+	}
+
+	public void playChangeWorldAnimation() {
+		_TotalComplete = Instantiate (TotalComplete) as GameObject;
+		_TotalComplete.transform.parent = GameObject.Find ("QuestTrack").transform;
+		_TotalComplete.name = QuestComplete.name;
+		_TotalComplete.transform.localPosition = QuestComplete.transform.position;
+		_TotalComplete.transform.localScale = QuestComplete.transform.lossyScale;
+		activeTotalQuestCompleteHUD = true;
 	}
 }

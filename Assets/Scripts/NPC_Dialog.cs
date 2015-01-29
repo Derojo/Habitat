@@ -42,15 +42,18 @@ public class NPC_Dialog : MonoBehaviour {
 			GUI.Box(new Rect(0, 0, Screen.width, Screen.height),"", GUI.skin.GetStyle("overlay"));
 			// Draw Dialog window
 			GUI.Box(centered, questTitle);
-			// Start first quest [search_flowerparts]
-			if(Library.habitat.questData.currentQuest == "" || Library.habitat.questData.currentQuest == currentQuest[0])
-			{
-				firstQuest();
-			}
-			// Start second quest [search_pollinator]
-			else if(Library.habitat.questData.currentQuest == currentQuest[1])
-			{
-				secondQuest();
+
+			if(!Library.habitat.questData.plantComplete) {
+				// Start first quest [search_flowerparts]
+				if(Library.habitat.questData.currentQuest == "" || Library.habitat.questData.currentQuest == currentQuest[0])
+				{
+					firstQuest();
+				}
+				// Start second quest [search_pollinator]
+				else if(Library.habitat.questData.currentQuest == currentQuest[1])
+				{
+					secondQuest();
+				}
 			}
 
 		}
@@ -166,8 +169,8 @@ public class NPC_Dialog : MonoBehaviour {
 				GUI.Label(label, questStates [5]);
 				// Complete quest
 				if( GUI.Button (new Rect (Screen.width/2 -90, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[2])) {
+					Library.habitat.questData.plantComplete = true;
 					Destroy (_questFinished);
-					questmark.SetActive (true);
 					// reset questdata
 					QuestManager.resetQuestData();
 					// Set new quest

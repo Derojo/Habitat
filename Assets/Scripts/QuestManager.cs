@@ -60,5 +60,5 @@ public class QuestManager : MonoBehaviour {
 		// Deactivate HUD
 		activateQuestHUD(false);
 	}
-	
+
 }
