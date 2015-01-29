@@ -51,7 +51,7 @@ public class QuestItem : MonoBehaviour {
 		if (onTrigger) {
 			// Create a continue button
 			GUI.Label(new Rect (Screen.width / 2, Screen.height / 10, 0, 0), gameObject.name+" Gevonden!", GUI.skin.GetStyle("questPartTitle"));
-			if (GUI.Button (new Rect (Screen.width/2 -90, Screen.height/2 +50, Screen.width / 4, Screen.height / 7), "Doorgaan")) {
+			if (GUI.Button (new Rect (Screen.width/2 -Screen.width / 4, Screen.height/4, Screen.width / 4, Screen.height / 7), "Doorgaan")) {
 				StartCoroutine(continueQuest());
 				QuestItem.sceneCutPlaying = false;
 			}

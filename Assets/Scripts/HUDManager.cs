@@ -80,6 +80,8 @@ public class HUDManager : MonoBehaviour {
 
 	void homePressed(CNAbstractController cnAbstractController)
 	{
+		Destroy (GameObject.Find ("Habitat"));
+		Destroy (GameObject.Find ("ARCamera"));
 		Application.LoadLevel ("MainMenu");
 	}
 }
