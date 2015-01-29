@@ -10,6 +10,7 @@ public class QuestItem : MonoBehaviour {
 	public GameObject lifeStreamEffect;
 	public GUISkin skin = null;
 	public static bool sceneCutPlaying = false;
+	public AudioClip appearSound;
 
 	private bool onTrigger = false;
 	private GameObject _lifeStreamEffect;
@@ -38,6 +39,7 @@ public class QuestItem : MonoBehaviour {
 		_lifeStreamEffect.transform.localPosition = _lifeStreamEffect.transform.position;
 		_lifeStreamEffect.transform.localScale = _lifeStreamEffect.transform.lossyScale;
 		StartCoroutine(highlightItem(1));
+		audio.PlayOneShot (appearSound);
 
 
 	}
