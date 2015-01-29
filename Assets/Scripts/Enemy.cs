@@ -13,9 +13,11 @@ public class Enemy : MonoBehaviour {
 	private GameObject _enemyHealthHUD = null;
 	// Attack
 	public float attackTimer = 0.0f;
-	public float coolDown = 2.0f;
+	public float coolDown = 1.0f;
 	public float damage = 5f;
-	
+	//sounds
+	public AudioClip getHit;
+
 	private Transform myTransform;
 	public bool follow;
 	
@@ -87,6 +89,7 @@ public class Enemy : MonoBehaviour {
 		{
 			if(distance <= maxDistance && direction > 0)
 			{
+				audio.PlayOneShot (getHit);
 				player.ReceiveDamage(-damage);
 			}
 		}
