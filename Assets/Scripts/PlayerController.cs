@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 	// Attack
 	public CNButton AttackButton;
 	public float damage = 25f;
+	public bool inCombat = false;
 	private float cooldownRemaining = 0f;
 	private float _attackState = 0f;
 	private GameObject target;
@@ -28,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
 	// Health
 	public float maxHealth = 100;
+	public float regenerateSpeed = 5f;
+	private float _regenerateCooldown= 0f;
 
 	// Animation
 	private Animator _animator;
@@ -88,6 +91,12 @@ public class PlayerController : MonoBehaviour
 		cooldownRemaining -= Time.deltaTime;
 		_attackState -= Time.deltaTime;
 
+		//Health regen
+		_regenerateCooldown -= Time.deltaTime;
+		if (!inCombat && Library.habitat.playerData.curHealth < maxHealth) {
+			regenerateHealth ();	
+		}
+
 	}
 	
 	/**
@@ -138,10 +147,10 @@ public class PlayerController : MonoBehaviour
 		// We are dead, respawn
 		if (Library.habitat.playerData.curHealth <= 0)
 		{
-			// Set data back to 100%
-			Library.habitat.playerData.curHealth = 100;
 			// Start at home map
 			Application.LoadLevel("Home");
+			// Set data back to 100%
+			Library.habitat.playerData.curHealth = 100;
 		}
 
 		if (Library.habitat.playerData.curHealth > maxHealth)
@@ -157,11 +166,11 @@ public class PlayerController : MonoBehaviour
 	private void fingerTouched(CNAbstractController cnAbstractController)
 	{
 		// Set attack state
-		_attackState = 2f;
+		_attackState = 1.5f;
 		if (cooldownRemaining < 0) {
 			_isAttacking = true;
 			playerAttack ();
-			cooldownRemaining = 0.5f;
+			cooldownRemaining = 0.4f;
 		}
 	}
 
@@ -172,24 +181,31 @@ public class PlayerController : MonoBehaviour
 		if(target != null) {
 			float distance = Vector3.Distance (target.transform.position, transform.position);
 			
-			Vector3 dir = (target.transform.position - transform.position).normalized;
+			Vector3 dir = (target.transform.position - transform.position);
 			
 			float direction = Vector3.Dot(dir, transform.forward);
-			Debug.Log (direction);
+			Debug.Log ("Distance to enemy:"+distance);
 			
-			//getting health script
-			Enemy health = target.GetComponent<Enemy>();
+			//getting enemy script
+			Enemy enemy = target.GetComponent<Enemy>();
 			
-			if(health)
+			if(enemy)
 			{
-				if(distance <= 2.5f && direction > 0)
+				Debug.Log ("Enemy distance"+enemy.maxDistance);
+				if(distance <= enemy.maxDistance && direction > 0)
 				{
-					health.ReceiveDamage(-10f);
+					enemy.ReceiveDamage(-damage);
 				}
 			}
 		}
 	}
 
+	private void regenerateHealth() {
+		if (_regenerateCooldown < 0) {
+			Library.habitat.playerData.curHealth+= 10;
+			_regenerateCooldown = regenerateSpeed;
+		}
+	}
 	private void fingerLifted(CNAbstractController cnAbstractController)
 	{
 		_isAttacking = false;

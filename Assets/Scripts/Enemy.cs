@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour {
 	// Attack
 	public float attackTimer = 0.0f;
 	public float coolDown = 2.0f;
-	public float damage = 25f;
+	public float damage = 5f;
 	
 	private Transform myTransform;
 	public bool follow;
@@ -31,20 +31,23 @@ public class Enemy : MonoBehaviour {
 		{
 			target = go.transform;
 		}
-		maxDistance = 2;
 		_enemyHealthHUD = Instantiate(Resources.Load("EnemyHealth")) as GameObject;
 		_enemyHealthHUD.GetComponent<HoverFollow> ().target = this.transform;
+		_enemyHealthHUD.transform.parent = GameObject.Find("HUD").transform;
 
 	}
 
 	void Update() {
 		if (follow) 
 		{
-			myTransform.rotation = Quaternion.Slerp (myTransform.rotation, Quaternion.LookRotation (target.position - myTransform.position), rotationSpeed * Time.deltaTime);
+			Vector3 lookPos = target.position - myTransform.position;
+			lookPos.y = 0;
+			Quaternion rotation = Quaternion.LookRotation(lookPos);
+			myTransform.rotation = Quaternion.Slerp (myTransform.rotation, rotation, rotationSpeed * Time.deltaTime);
 			if (Vector3.Distance (target.position, myTransform.position) > maxDistance) 
-				myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
+				myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;		
 		}
-		
+
 		if (attackTimer > 0)
 		{
 			attackTimer -= Time.deltaTime;
@@ -69,23 +72,22 @@ public class Enemy : MonoBehaviour {
 	
 	void Attack()
 	{
+
 		//calculating distance between target en player
 		float distance = Vector3.Distance (target.transform.position, transform.position);
 		
 		Vector3 dir = (target.transform.position - transform.position).normalized;
 		
 		float direction = Vector3.Dot(dir, transform.forward);
+		Debug.Log (direction);
 		
-		
-		
-		
-		//getting health script
-		PlayerController health = target.GetComponent<PlayerController>();
-		if(health)
+		//getting player health
+		PlayerController player = target.GetComponent<PlayerController>();
+		if(player)
 		{
-			if(distance <= 2.5f && direction > 0)
+			if(distance <= maxDistance && direction > 0)
 			{
-				health.ReceiveDamage(-10);
+				player.ReceiveDamage(-damage);
 			}
 		}
 		
@@ -93,12 +95,14 @@ public class Enemy : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other) 
 	{
+		target.GetComponent<PlayerController>().inCombat = true;
 		follow = true;
 
 	}
 
 	void OnTriggerExit (Collider other)
 	{
+		target.GetComponent<PlayerController>().inCombat = false;
 		 follow = false;
 	}
 
@@ -108,7 +112,11 @@ public class Enemy : MonoBehaviour {
 		
 		if (curHealth < 0)
 		{
-			curHealth = 0;
+			target.GetComponent<PlayerController>().inCombat = false;
+			// enemy is dead, let's remove it
+			Destroy (gameObject);
+			// Destroy enemy health hud
+			Destroy(_enemyHealthHUD);
 		}
 		
 		
