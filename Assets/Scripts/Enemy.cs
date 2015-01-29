@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour {
 	public AudioClip buzz;
 	private Transform myTransform;
 	public bool follow;
-
+	private bool _isPLaying = false;
 	void Awake () 
 	{
 		myTransform = transform;
@@ -42,6 +42,8 @@ public class Enemy : MonoBehaviour {
 	void Update() {
 		if (follow) 
 		{
+		
+			
 			Vector3 lookPos = target.position - myTransform.position;
 			lookPos.y = 0;
 			Quaternion rotation = Quaternion.LookRotation(lookPos);
@@ -98,17 +100,24 @@ public class Enemy : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other) 
 	{
+		if(!_isPLaying) 
+		{
+			audio.PlayOneShot(buzz);
+			_isPLaying = true;
+		}
 
 		target.GetComponent<PlayerController>().inCombat = true;
 		follow = true;
-		audio.PlayOneShot (buzz);
 	}
 
 	void OnTriggerExit (Collider other)
 	{
+		audio.Stop();
 		target.GetComponent<PlayerController>().inCombat = false;
 		 follow = false;
+		_isPLaying = false;
 	}
+
 
 	public void ReceiveDamage ( float amt)
 	{
