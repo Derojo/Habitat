@@ -40,7 +40,9 @@ public class PlayerController : MonoBehaviour
 	public string Run = "Run";
 	public string Punch = "Punch";
 
-
+	//Sounds
+	public AudioClip hitSound;
+	public AudioClip swoosh;
 
 	void Awake() {
 		DontDestroyOnLoad(gameObject);
@@ -177,23 +179,27 @@ public class PlayerController : MonoBehaviour
 	private void playerAttack()
 	{
 		_animator.Play(Punch);
+		audio.PlayOneShot (swoosh);
 		//calculating distance between target en player
 		if(targets != null) {
 			foreach(GameObject target in targets) {
-				float distance = Vector3.Distance (target.transform.position, transform.position);
-				
+				if(target != null) {
+					float distance = Vector3.Distance (target.transform.position, transform.position);
+					
 
-				Debug.Log ("Distance to enemy:"+distance);
-				
-				//getting enemy script
-				Enemy enemy = target.GetComponent<Enemy>();
-				
-				if(enemy)
-				{
-					Debug.Log ("Enemy distance"+enemy.maxDistance);
-					if(distance <= enemy.maxDistance )
+					Debug.Log ("Distance to enemy:"+distance);
+					
+					//getting enemy script
+					Enemy enemy = target.GetComponent<Enemy>();
+					
+					if(enemy)
 					{
-						enemy.ReceiveDamage(-damage);
+						Debug.Log ("Enemy distance"+enemy.maxDistance);
+						if(distance <= enemy.maxDistance )
+						{
+							audio.PlayOneShot(hitSound);
+							enemy.ReceiveDamage(-damage);
+						}
 					}
 				}
 			}
