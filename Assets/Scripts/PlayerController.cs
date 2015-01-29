@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 	public bool inCombat = false;
 	private float cooldownRemaining = 0f;
 	private float _attackState = 0f;
-	private GameObject target;
+	private GameObject[] targets;
 	private bool _isAttacking = false;
 
 	// Health
@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 		_animator = _playerTransform.GetComponent<Animator> ();
 		AttackButton.FingerTouchedEvent += fingerTouched;
 		AttackButton.FingerLiftedEvent += fingerLifted;
-		target = GameObject.FindGameObjectWithTag("Enemy");
+		targets = GameObject.FindGameObjectsWithTag("Enemy");
 	}
 	
 
@@ -178,23 +178,23 @@ public class PlayerController : MonoBehaviour
 	{
 		_animator.Play(Punch);
 		//calculating distance between target en player
-		if(target != null) {
-			float distance = Vector3.Distance (target.transform.position, transform.position);
-			
-			Vector3 dir = (target.transform.position - transform.position);
-			
-			float direction = Vector3.Dot(dir, transform.forward);
-			Debug.Log ("Distance to enemy:"+distance);
-			
-			//getting enemy script
-			Enemy enemy = target.GetComponent<Enemy>();
-			
-			if(enemy)
-			{
-				Debug.Log ("Enemy distance"+enemy.maxDistance);
-				if(distance <= enemy.maxDistance && direction > 0)
+		if(targets != null) {
+			foreach(GameObject target in targets) {
+				float distance = Vector3.Distance (target.transform.position, transform.position);
+				
+
+				Debug.Log ("Distance to enemy:"+distance);
+				
+				//getting enemy script
+				Enemy enemy = target.GetComponent<Enemy>();
+				
+				if(enemy)
 				{
-					enemy.ReceiveDamage(-damage);
+					Debug.Log ("Enemy distance"+enemy.maxDistance);
+					if(distance <= enemy.maxDistance )
+					{
+						enemy.ReceiveDamage(-damage);
+					}
 				}
 			}
 		}
