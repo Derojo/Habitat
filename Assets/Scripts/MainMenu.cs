@@ -35,7 +35,11 @@ using System.Collections;
 
 		GUI.DrawTexture(new Rect (0, 0, 1024, 768), backGround);
 		GUI.DrawTexture(new Rect (275, -50, 500, 500), habitat1);
-		if (GUI.Button (new Rect (370, 300, 300, 100), "NIEUW SPEL")) 
+		string buttonPlayName = "NIEUW SPEL";
+		if (SaveLoad.dataFileExist ()) {
+			buttonPlayName = "Spelen";
+		}
+		if (GUI.Button (new Rect (370, 300, 300, 100), buttonPlayName)) 
 		{
 			Loader.activeLoading = true;
 			Application.LoadLevel("Initialize");

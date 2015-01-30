@@ -39,9 +39,7 @@ public class QuestItem : MonoBehaviour {
 		_lifeStreamEffect.transform.localPosition = _lifeStreamEffect.transform.position;
 		_lifeStreamEffect.transform.localScale = _lifeStreamEffect.transform.lossyScale;
 		StartCoroutine(highlightItem(1));
-		audio.PlayOneShot (appearSound);
-
-
+		audio.Play();
 	}
 
 	void OnGUI() {
@@ -53,7 +51,7 @@ public class QuestItem : MonoBehaviour {
 		if (onTrigger) {
 			// Create a continue button
 			GUI.Label(new Rect (Screen.width / 2, Screen.height / 10, 0, 0), gameObject.name+" Gevonden!", GUI.skin.GetStyle("questPartTitle"));
-			if (GUI.Button (new Rect (Screen.width/2 -Screen.width / 4, Screen.height/4, Screen.width / 4, Screen.height / 7), "Doorgaan")) {
+			if (GUI.Button (new Rect (Screen.width/2 - (Screen.width/8), Screen.height/1.4f, Screen.width / 4, Screen.height / 7), "Doorgaan")) {
 				StartCoroutine(continueQuest());
 				QuestItem.sceneCutPlaying = false;
 			}
@@ -97,19 +95,18 @@ public class QuestItem : MonoBehaviour {
 	}
 
 	IEnumerator continueQuest() {
-		// Fade in and out
-		GameObject.Find ("Fader").GetComponent<Fader> ().fadeSpeed = 0.8f;
-		GameObject.Find("Fader").GetComponent<Fader>().BeginFade(1);
-		yield return new WaitForSeconds(0.8f);
-		GameObject.Find("Fader").GetComponent<Fader>().BeginFade(-1);
-		// Show Player
-		showHideGameObjects(GameObject.Find ("PlayerSetup"), true);
-		// Show Controls
-		showHideGameObjects(GameObject.Find ("HUD"), true, true);
-		// Kill the part
-		Destroy (gameObject);
-		Destroy (_lifeStreamEffect);
-		
-	}
+			// Fade in and out
+			GameObject.Find ("Fader").GetComponent<Fader> ().fadeSpeed = 0.8f;
+			GameObject.Find ("Fader").GetComponent<Fader> ().BeginFade (1);
+			yield return new WaitForSeconds (0.8f);
+			GameObject.Find ("Fader").GetComponent<Fader> ().BeginFade (-1);
+			// Show Player
+			showHideGameObjects (GameObject.Find ("PlayerSetup"), true);
+			// Show Controls
+			showHideGameObjects (GameObject.Find ("HUD"), true, true);
+			// Kill the part
+			Destroy (gameObject);
+			Destroy (_lifeStreamEffect);
+		}
 	
 }

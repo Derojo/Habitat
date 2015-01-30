@@ -185,16 +185,13 @@ public class PlayerController : MonoBehaviour
 			foreach(GameObject target in targets) {
 				if(target != null) {
 					float distance = Vector3.Distance (target.transform.position, transform.position);
-					
 
-					Debug.Log ("Distance to enemy:"+distance);
 					
 					//getting enemy script
 					Enemy enemy = target.GetComponent<Enemy>();
 					
 					if(enemy)
 					{
-						Debug.Log ("Enemy distance"+enemy.maxDistance);
 						if(distance <= enemy.maxDistance )
 						{
 							audio.PlayOneShot(hitSound);
@@ -209,6 +206,9 @@ public class PlayerController : MonoBehaviour
 	private void regenerateHealth() {
 		if (_regenerateCooldown < 0) {
 			Library.habitat.playerData.curHealth+= 10;
+			if(Library.habitat.playerData.curHealth > maxHealth){
+				Library.habitat.playerData.curHealth = maxHealth;
+			}
 			_regenerateCooldown = regenerateSpeed;
 		}
 	}

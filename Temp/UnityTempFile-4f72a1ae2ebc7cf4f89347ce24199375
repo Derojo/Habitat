@@ -1,0 +1,61 @@
+-debug
+-target:library
+-nowarn:0169
+-out:Temp/Assembly-CSharp-Editor.dll
+-r:"C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll"
+-r:"C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll"
+-r:Library/ScriptAssemblies/Assembly-CSharp.dll
+-r:Library/ScriptAssemblies/Assembly-UnityScript-Editor-firstpass.dll
+-r:Assets/Editor/QCAR/Scripts/Qualcomm.Vuforia.UnityExtensions.Editor.dll
+-r:"Assets/Qualcomm Augmented Reality/Scripts/Internal/Qualcomm.Vuforia.UnityExtensions.dll"
+-r:"C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll"
+-define:UNITY_4_5_5
+-define:UNITY_4_5
+-define:UNITY_ANDROID
+-define:ENABLE_MICROPHONE
+-define:ENABLE_TEXTUREID_MAP
+-define:ENABLE_UNITYEVENTS
+-define:ENABLE_NEW_HIERARCHY 
+-define:ENABLE_AUDIO_FMOD
+-define:ENABLE_MONO
+-define:ENABLE_TERRAIN
+-define:ENABLE_SUBSTANCE
+-define:ENABLE_GENERICS
+-define:INCLUDE_WP8SUPPORT
+-define:ENABLE_WWW
+-define:ENABLE_IMAGEEFFECTS
+-define:INCLUDE_WP_BLUE_SUPPORT
+-define:ENABLE_WEBCAM
+-define:INCLUDE_METROSUPPORT
+-define:RENDER_SOFTWARE_CURSOR
+-define:ENABLE_NETWORK
+-define:ENABLE_PHYSICS
+-define:ENABLE_CACHING
+-define:ENABLE_CLOTH
+-define:UNITY_ANDROID_API
+-define:ENABLE_2D_PHYSICS
+-define:ENABLE_SHADOWS
+-define:ENABLE_AUDIO
+-define:ENABLE_NAVMESH_CARVING
+-define:ENABLE_SINGLE_INSTANCE_BUILD_SETTING
+-define:ENABLE_PROFILER
+-define:UNITY_EDITOR
+-define:UNITY_EDITOR_WIN
+-define:ENABLE_DUCK_TYPING
+Assets/Editor/Editor/CNAbstractControllerInspector.cs
+Assets/Editor/Editor/CNButtonCreatorMenu.cs
+Assets/Editor/Editor/CNButtonInspector.cs
+Assets/Editor/Editor/CNInputEditorTools.cs
+Assets/Editor/Editor/CNJoystickCreatorMenu.cs
+Assets/Editor/Editor/CNJoystickInspector.cs
+Assets/Editor/Editor/CNThrowableTouchpadCreatorMenu.cs
+Assets/Editor/Editor/CNThrowableTouchpadInspector.cs
+Assets/Editor/Editor/CNTouchpadCreatorMenu.cs
+Assets/Editor/Editor/CNTouchpadInspector.cs
+Assets/Editor/QCAR/SampleImport/SampleImport.cs
+Assets/Editor/QCAR/SampleOrientationSetter.cs
+Assets/Editor/QCAR/Scripts/ComponentFactoryStarter/ComponentFactoryStarter.cs
+Assets/Editor/QCAR/Scripts/ExtensionImport.cs
+Assets/Editor/QCAR/Scripts/Unzipper/SharpZipLibUnzipper.cs
+-r:"C:/Program Files (x86)/Unity/Editor/Data/Mono\lib/mono/2.0\System.Runtime.Serialization.dll"
+-r:"C:/Program Files (x86)/Unity/Editor/Data/Mono\lib/mono/2.0\System.Xml.Linq.dll"

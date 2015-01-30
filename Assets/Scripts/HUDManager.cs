@@ -30,7 +30,7 @@ public class HUDManager : MonoBehaviour {
 				GameObject.Find ("QuestTitle").GetComponent<GUIText> ().text = Library.habitat.questData.currentQuest+" voltooid!";
 				GameObject.Find ("QuestTitle").GetComponent<GUIText>().material.color = QuestCompleteTitleColor;
 			}
-
+			Debug.Log (Library.habitat.questData.completeQuest);
 			if (Library.habitat.questData.completeQuest && !QuestItem.sceneCutPlaying ) {
 				if (!activeQuestCompleteHUD) {
 					_QuestComplete = Instantiate (QuestComplete) as GameObject;
@@ -44,6 +44,7 @@ public class HUDManager : MonoBehaviour {
 			if(Library.habitat.questData.plantComplete) {
 				if(!activeTotalQuestCompleteHUD) {
 					playChangeWorldAnimation();
+					activeTotalQuestCompleteHUD = true;
 				}
 			}
 			if(!Library.habitat.questData.completeQuest) {
@@ -57,15 +58,19 @@ public class HUDManager : MonoBehaviour {
 
 	void OnGUI()
 	{
-		float curHealth = Library.habitat.playerData.curHealth;
-		float maxHealth = GameObject.Find ("PlayerSetup").GetComponent<PlayerController> ().maxHealth;
-		float curhealthBar = Screen.width / 4 * (Library.habitat.playerData.curHealth / maxHealth);
+		if (HabitatState.statusTracking == HabitatState.StatusTracking.Tracking) {
+			if(!QuestItem.sceneCutPlaying) {
+				float curHealth = Library.habitat.playerData.curHealth;
+				float maxHealth = GameObject.Find ("PlayerSetup").GetComponent<PlayerController> ().maxHealth;
+				float curhealthBar = Screen.width / 4 * (Library.habitat.playerData.curHealth / maxHealth);
 
-		GUI.skin = skin;
-		GUI.skin.GetStyle("playerHealthText").fontSize = Screen.width / 45;
-		GUI.Box(new Rect(10, 15, Screen.width / 4, Screen.width / 30 ), "", GUI.skin.GetStyle("playerHealthBar"));
-		GUI.Box(new Rect(10, 15, curhealthBar, Screen.width / 30 ), "", GUI.skin.GetStyle("playerCurHealthBar"));
-		GUI.Label(new Rect(10, 15, Screen.width / 4, Screen.width / 30 ), curHealth + "/" + maxHealth, GUI.skin.GetStyle("playerHealthText"));
+				GUI.skin = skin;
+				GUI.skin.GetStyle("playerHealthText").fontSize = Screen.width / 45;
+				GUI.Box(new Rect(10, 15, Screen.width / 4, Screen.width / 30 ), "", GUI.skin.GetStyle("playerHealthBar"));
+				GUI.Box(new Rect(10, 15, curhealthBar, Screen.width / 30 ), "", GUI.skin.GetStyle("playerCurHealthBar"));
+				GUI.Label(new Rect(10, 15, Screen.width / 4, Screen.width / 30 ), curHealth + "/" + maxHealth, GUI.skin.GetStyle("playerHealthText"));
+			}
+		}
 
 	}
 
@@ -82,6 +87,8 @@ public class HUDManager : MonoBehaviour {
 	{
 		Destroy (GameObject.Find ("Habitat"));
 		Destroy (GameObject.Find ("ARCamera"));
+		Destroy (GameObject.Find ("BackgroundCamera(Clone)"));
+		SaveLoad.Save ();
 		Application.LoadLevel ("MainMenu");
 	}
 }

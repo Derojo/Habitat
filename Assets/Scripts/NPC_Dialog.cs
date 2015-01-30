@@ -14,6 +14,9 @@ public class NPC_Dialog : MonoBehaviour {
 	public GameObject questmark;
 	public GameObject questmarkFinished;
 	public AudioClip blop;
+	public AudioClip appear;
+	public AudioClip accept;
+	public AudioClip complete;
 
 	// So we have a reference to the instanstiated questmarkFinished
 	private GameObject _questFinished;
@@ -27,7 +30,6 @@ public class NPC_Dialog : MonoBehaviour {
 		if (Library.habitat.questData.plantComplete) {
 			Destroy(transform.parent.gameObject);
 		}
-//		Library.habitat.questData.currentQuest = currentQuest [1];
 	}
 	
 	void OnGUI() {
@@ -51,16 +53,19 @@ public class NPC_Dialog : MonoBehaviour {
 				if(Library.habitat.questData.currentQuest == "" || Library.habitat.questData.currentQuest == currentQuest[0])
 				{
 					firstQuest();
-					Debug.Log ("first Quest");
 				}
 				// Start second quest [search_pollinator]
 				else if(Library.habitat.questData.currentQuest == currentQuest[1])
 				{
 					secondQuest();
-					Debug.Log ("Second Quest");
 				}
-			}
+			} 
 
+		} else if(Library.habitat.questData.plantComplete) {
+			if( GUI.Button (new Rect (Screen.width/2 - (Screen.width/8), Screen.height/1.4f, Screen.width / 4, Screen.height / 7), callButtons[2])) {
+				Destroy(gameObject);
+				Application.LoadLevel ("Home");
+			}
 		}
 	}
 
@@ -105,6 +110,8 @@ public class NPC_Dialog : MonoBehaviour {
 			GUI.Label(label, questStates [0]);
 			// Draw acceptbutton
 			if( GUI.Button (new Rect (Screen.width/5, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[0])) {
+				// Play accept sound
+				audio.PlayOneShot(accept);
 				// Activate quest if we click the right button
 				Library.habitat.questData.activeQuest = true;
 				Library.habitat.questData.displayQuestlog = false;
@@ -128,10 +135,13 @@ public class NPC_Dialog : MonoBehaviour {
 		}
 //		// Player is done 
 		else if (Library.habitat.questData.activeQuest && Library.habitat.questData.completeQuest) {
+			// Play complete sound
+			audio.PlayOneShot(complete);
 			// Parts are found give player a new quest
 			GUI.Label(label, questStates [2]);
 			// Complete quest
-			if( GUI.Button (new Rect (Screen.width/2 -90, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[2])) {
+			if( GUI.Button (new Rect (Screen.width/2 - (Screen.width/8), Screen.height/1.4f, Screen.width / 4, Screen.height / 7), callButtons[2])) {
+				// Destroy questfinished mark
 				Destroy (_questFinished);
 				questmark.SetActive (true);
 				// reset questdata
@@ -149,6 +159,8 @@ public class NPC_Dialog : MonoBehaviour {
 			GUI.Label(label, questStates [3]);
 			// Draw acceptbutton
 			if( GUI.Button (new Rect (Screen.width/5, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[0])) {
+				// Play accept sound
+				audio.PlayOneShot(accept);
 				// Activate quest if we click the right button
 				Library.habitat.questData.activeQuest = true;
 				Library.habitat.questData.displayQuestlog = false;
@@ -170,16 +182,28 @@ public class NPC_Dialog : MonoBehaviour {
 		else if (Library.habitat.questData.activeQuest && !Library.habitat.questData.completeQuest) {
 			GUI.Label(label, questStates [4]);
 		}
-		else if (Library.habitat.questData.activeQuest && Library.habitat.questData.completeQuest) {
-			// Parts are found give player a new quest
+		else if (Library.habitat.questData.activeQuest && Library.habitat.questData.completeQuest && !QuestItem.sceneCutPlaying) {
+			// Pollinator is found, play complete animation
 			GUI.Label(label, questStates [5]);
-			Library.habitat.questData.plantComplete = true;
 			// Complete quest
-			if( GUI.Button (new Rect (Screen.width/2 -90, Screen.height / 1.6f, Screen.width / 4, Screen.height / 7), callButtons[2])) {
+			if( GUI.Button (new Rect (Screen.width/2 - (Screen.width/8), Screen.height/1.4f, Screen.width / 4, Screen.height / 7), callButtons[3])) {
+				Library.habitat.questData.displayQuestlog = false;
 				Destroy (_questFinished);
-				// reset questdata
+				// Play appear sound
+				audio.PlayOneShot(appear);
+				// Reset quest data;
 				QuestManager.resetQuestData();
-				Application.LoadLevel ("Home");
+				// Add pollinate animation
+				GameObject _pollinateAnimation = Instantiate(Resources.Load("cutScenes/Bij")) as GameObject; 
+				_pollinateAnimation.name = "Bij";
+				_pollinateAnimation.transform.parent = GameObject.Find("Container").transform;
+				_pollinateAnimation.transform.localPosition = _pollinateAnimation.transform.position;
+				_pollinateAnimation.transform.localScale = _pollinateAnimation.transform.lossyScale;
+				// Add 3d flower animation
+				GameObject _cutSceneAnimation = Instantiate(Resources.Load("cutScenes/ZonnehoedBloem")) as GameObject; 
+				_cutSceneAnimation.transform.parent = GameObject.Find("Container").transform;
+				_cutSceneAnimation.transform.localPosition = _cutSceneAnimation.transform.position;
+				_cutSceneAnimation.transform.localScale = _cutSceneAnimation.transform.lossyScale;
 			}
 		}
 	}
