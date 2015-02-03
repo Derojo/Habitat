@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
 	private AudioSource _swoosh;
 	private AudioSource _hitSound;
 	private AudioSource _deathSound;
+	private AudioSource _battleMusic;
+	public bool battleMusicPlaying = false;
 
 	void Awake() {
 		DontDestroyOnLoad(gameObject);
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour
 		_swoosh = aSources[0];
 		_hitSound = aSources[1];
 		_deathSound = aSources[2];
+		_battleMusic = aSources [3];
 		_characterController = GetComponent<CharacterController>();
 		_transformCache = GetComponent<Transform>();
 		_playerTransform = _transformCache.FindChild(playerModel);
@@ -105,11 +108,20 @@ public class PlayerController : MonoBehaviour
 		cooldownRemaining -= Time.deltaTime;
 		_attackState -= Time.deltaTime;
 
-		//Health regen
+		// Health regen
 		_regenerateCooldown -= Time.deltaTime;
 		if (!inCombat && Library.habitat.playerData.curHealth < maxHealth) {
 			regenerateHealth ();	
 		}
+
+		// Battle music
+		if (inCombat && !battleMusicPlaying) {
+			_battleMusic.Play();
+			battleMusicPlaying = true;
+		} else if(!inCombat && !battleMusicPlaying) {
+			_battleMusic.Stop();
+		}
+
 
 	}
 	

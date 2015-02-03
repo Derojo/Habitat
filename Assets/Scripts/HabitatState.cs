@@ -78,8 +78,8 @@ public class HabitatState : MonoBehaviour {
 		var boardHeight = targetHeight*0.75f;
 		GUI.DrawTexture(new Rect(Screen.width/2-boardWidth/2, Screen.height/2-boardHeight/2,boardWidth,boardHeight),miniBoardIcon);
 		
-		var labelRect = new Rect(Screen.width/2-boardWidth/2*0.9f, Screen.height/8,boardWidth*0.9f,80);
-		GUI.Label(new Rect(Screen.width/2-boardWidth/2*0.9f, Screen.height/7.9f,boardWidth*0.9f,80),"Richt je camera op het game board", GUI.skin.GetStyle("LabelCenterBackground"));
+		var labelRect = new Rect(Screen.width/2-boardWidth/2*0.9f, Screen.height/8*0.2f,boardWidth*0.9f,80);
+		GUI.Label(new Rect(Screen.width/2-boardWidth/2*0.9f, Screen.height/7.9f*0.21f,boardWidth*0.9f,80),"Richt je camera op het game board", GUI.skin.GetStyle("LabelCenterBackground"));
 		GUI.Label(labelRect,"Richt je camera op het game board", GUI.skin.GetStyle("labelCenterWithBack"));
 
 	}

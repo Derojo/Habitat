@@ -83,7 +83,6 @@ public class Enemy : MonoBehaviour {
 		Vector3 dir = (target.transform.position - transform.position).normalized;
 		
 		float direction = Vector3.Dot(dir, transform.forward);
-		Debug.Log (direction);
 		
 		//getting player health
 		PlayerController player = target.GetComponent<PlayerController>();
@@ -114,8 +113,10 @@ public class Enemy : MonoBehaviour {
 
 	void OnTriggerExit (Collider other)
 	{
+
 		audio.Stop();
 		target.GetComponent<PlayerController>().inCombat = false;
+		target.GetComponent<PlayerController>().battleMusicPlaying = false;
 		 follow = false;
 		_isPLaying = false;
 	}
