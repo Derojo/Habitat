@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 	public bool inCombat = false;
 	private float cooldownRemaining = 0f;
 	private float _attackState = 0f;
+	private bool _gettingHit = false;
 	private GameObject[] targets;
 	private bool _isAttacking = false;
 
@@ -39,16 +40,23 @@ public class PlayerController : MonoBehaviour
 	public string Walk = "Walk";
 	public string Run = "Run";
 	public string Punch = "Punch";
+	public string Hit = "Hit";
+	public string Death = "Death";
 
 	//Sounds
-	public AudioClip hitSound;
-	public AudioClip swoosh;
+	private AudioSource _swoosh;
+	private AudioSource _hitSound;
+	private AudioSource _deathSound;
 
 	void Awake() {
 		DontDestroyOnLoad(gameObject);
 	}
 	void Start()
 	{
+		AudioSource[] aSources = GetComponents<AudioSource>();
+		_swoosh = aSources[0];
+		_hitSound = aSources[1];
+		_deathSound = aSources[2];
 		_characterController = GetComponent<CharacterController>();
 		_transformCache = GetComponent<Transform>();
 		_playerTransform = _transformCache.FindChild(playerModel);
@@ -79,11 +87,15 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 		else {
-			if(!_isAttacking && cooldownRemaining < 0) {
-				if(_attackState < 0) {
-					_animator.Play(Idle);
-				} else {
-					_animator.Play (AttackIdle);
+			if(Library.habitat.playerData.curHealth > 0) {
+				if(!_isAttacking && cooldownRemaining < 0) {
+					if(!inCombat) {
+						_animator.Play(Idle);
+					} else {
+						if(!_gettingHit) {
+							_animator.Play (AttackIdle);
+						}
+					}
 				}
 			}
 			_currentPosition = movement;
@@ -144,15 +156,20 @@ public class PlayerController : MonoBehaviour
 
 	public void ReceiveDamage ( float amt)
 	{
+		_gettingHit = true;
 		Library.habitat.playerData.curHealth += amt;
+		_animator.Play(Hit);
 
 		// We are dead, respawn
 		if (Library.habitat.playerData.curHealth <= 0)
 		{
+			// Hide hud
+			GameObject.Find("HUD").SetActive(false);
+			// Play death fall animation
+			_animator.Play(Death);
+			_deathSound.Play ();
 			// Start at home map
-			Application.LoadLevel("Home");
-			// Set data back to 100%
-			Library.habitat.playerData.curHealth = 100;
+			StartCoroutine(LoadLevel("Home", 2f));
 		}
 
 		if (Library.habitat.playerData.curHealth > maxHealth)
@@ -165,12 +182,22 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	IEnumerator LoadLevel( string _name, float _delay) {
+		yield return new WaitForSeconds(_delay);
+		// Set data back to 100%
+		Library.habitat.playerData.curHealth = 100;
+		Application.LoadLevel(_name);
+		GameObject.Find("HUD").SetActive(true);
+
+	}
+
 	private void fingerTouched(CNAbstractController cnAbstractController)
 	{
 		// Set attack state
 		_attackState = 1.5f;
 		if (cooldownRemaining < 0) {
 			_isAttacking = true;
+			_gettingHit = false;
 			playerAttack ();
 			cooldownRemaining = 0.4f;
 		}
@@ -179,7 +206,7 @@ public class PlayerController : MonoBehaviour
 	private void playerAttack()
 	{
 		_animator.Play(Punch);
-		audio.PlayOneShot (swoosh);
+		_swoosh.Play();
 		//calculating distance between target en player
 		if(targets != null) {
 			foreach(GameObject target in targets) {
@@ -194,7 +221,7 @@ public class PlayerController : MonoBehaviour
 					{
 						if(distance <= enemy.maxDistance )
 						{
-							audio.PlayOneShot(hitSound);
+							_hitSound.Play();
 							enemy.ReceiveDamage(-damage);
 						}
 					}

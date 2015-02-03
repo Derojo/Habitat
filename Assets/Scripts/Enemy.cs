@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour {
 		}
 
 		// Health overlay
-		_enemyHealthHUD.GetComponent<GUIText>().text = ""+curHealth;
+		_enemyHealthHUD.GetComponent<GUIText>().text = "Wesp\n"+curHealth;
 		
 		
 	}
@@ -91,8 +91,10 @@ public class Enemy : MonoBehaviour {
 		{
 			if(distance <= maxDistance && direction > 0)
 			{
-				audio.PlayOneShot (getHit);
-				player.ReceiveDamage(-damage);
+				if(Library.habitat.playerData.curHealth > 0) {
+					audio.PlayOneShot (getHit);
+					player.ReceiveDamage(-damage);
+				}
 			}
 		}
 		

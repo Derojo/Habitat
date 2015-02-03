@@ -22,6 +22,7 @@ public class HUDManager : MonoBehaviour {
 
 	void Update() {
 		if (HabitatState.statusTracking == HabitatState.StatusTracking.Tracking) {
+			showHideTextObject(true);
 			if (Library.habitat.questData.activeQuest) {
 				GameObject.Find ("QuestTitle").GetComponent<GUIText> ().text = Library.habitat.questData.currentQuest;
 				GameObject.Find ("QuestPartsFound").GetComponent<GUIText> ().text = Library.habitat.questData.partsFound + " / " + Library.habitat.questData.questParts.Count;
@@ -30,7 +31,6 @@ public class HUDManager : MonoBehaviour {
 				GameObject.Find ("QuestTitle").GetComponent<GUIText> ().text = Library.habitat.questData.currentQuest+" voltooid!";
 				GameObject.Find ("QuestTitle").GetComponent<GUIText>().material.color = QuestCompleteTitleColor;
 			}
-			Debug.Log (Library.habitat.questData.completeQuest);
 			if (Library.habitat.questData.completeQuest && !QuestItem.sceneCutPlaying ) {
 				if (!activeQuestCompleteHUD) {
 					_QuestComplete = Instantiate (QuestComplete) as GameObject;
@@ -53,6 +53,8 @@ public class HUDManager : MonoBehaviour {
 					activeQuestCompleteHUD = false;
 				}
 			}
+		} else {
+			showHideTextObject(false);
 		}
 	}
 
@@ -65,10 +67,12 @@ public class HUDManager : MonoBehaviour {
 				float curhealthBar = Screen.width / 4 * (Library.habitat.playerData.curHealth / maxHealth);
 
 				GUI.skin = skin;
+
 				GUI.skin.GetStyle("playerHealthText").fontSize = Screen.width / 45;
-				GUI.Box(new Rect(10, 15, Screen.width / 4, Screen.width / 30 ), "", GUI.skin.GetStyle("playerHealthBar"));
-				GUI.Box(new Rect(10, 15, curhealthBar, Screen.width / 30 ), "", GUI.skin.GetStyle("playerCurHealthBar"));
-				GUI.Label(new Rect(10, 15, Screen.width / 4, Screen.width / 30 ), curHealth + "/" + maxHealth, GUI.skin.GetStyle("playerHealthText"));
+				GUI.Box(new Rect(15, 15, Screen.width / 4, Screen.width / 30 ), "", GUI.skin.GetStyle("playerHealthBar"));
+				GUI.Box(new Rect(15, 15, curhealthBar, Screen.width / 30 ), "", GUI.skin.GetStyle("playerCurHealthBar"));
+				GUI.Label(new Rect(15, 15, Screen.width / 4, Screen.width / 30 ), curHealth + "/" + maxHealth, GUI.skin.GetStyle("playerHealthText"));
+				GUI.Box(new Rect(10, 7, Screen.width / 20, Screen.width / 20 ), "", GUI.skin.GetStyle("playerHeart"));
 			}
 		}
 
@@ -90,6 +94,13 @@ public class HUDManager : MonoBehaviour {
 		Destroy (GameObject.Find ("BackgroundCamera(Clone)"));
 		SaveLoad.Save ();
 		Application.LoadLevel ("MainMenu");
+	}
+
+	private void showHideTextObject(bool _status) {
+		GUIText[] HUDText = GetComponentsInChildren<GUIText> (true);
+		foreach (GUIText component in HUDText) {
+			component.enabled = _status;
+		}
 	}
 }
 

@@ -16,7 +16,7 @@ public class NPC_Dialog : MonoBehaviour {
 	public AudioClip blop;
 	public AudioClip appear;
 	public AudioClip accept;
-	public AudioClip complete;
+//	public AudioClip complete;
 
 	// So we have a reference to the instanstiated questmarkFinished
 	private GameObject _questFinished;
@@ -136,7 +136,7 @@ public class NPC_Dialog : MonoBehaviour {
 //		// Player is done 
 		else if (Library.habitat.questData.activeQuest && Library.habitat.questData.completeQuest) {
 			// Play complete sound
-			audio.PlayOneShot(complete);
+//			audio.PlayOneShot(complete);
 			// Parts are found give player a new quest
 			GUI.Label(label, questStates [2]);
 			// Complete quest
