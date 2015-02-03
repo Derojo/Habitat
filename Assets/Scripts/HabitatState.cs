@@ -22,7 +22,7 @@ public class HabitatState : MonoBehaviour {
 	public static bool allowShowingTargetContent=true;
 	public static bool doNotHideARContent=false;
 	public Status initialStatus = Status.Stopped;
-	private static float targetWidth = (Screen.width/1.8f);
+	private static float targetWidth = (Screen.width/1.6f);
 	private float targetHeight = (targetWidth/100f)*70f;
 	public AudioClip ambientSound;
 	private bool _isPlaying = false;
@@ -74,8 +74,8 @@ public class HabitatState : MonoBehaviour {
 		//GUI.Box(new Rect(0, 0, LigaboUtils.screenWidth, LigaboUtils.screenHeight), "", GUI.skin.GetStyle("scoreboard") );
 		GUI.Box(new Rect(Screen.width/2-targetWidth/2,Screen.height/2-targetHeight/2,targetWidth,targetHeight),"",GUI.skin.GetStyle("targetFinder"));
 
-		var boardWidth = targetWidth*0.85f;
-		var boardHeight = targetHeight*0.8f;
+		var boardWidth = targetWidth*0.82f;
+		var boardHeight = targetHeight*0.75f;
 		GUI.DrawTexture(new Rect(Screen.width/2-boardWidth/2, Screen.height/2-boardHeight/2,boardWidth,boardHeight),miniBoardIcon);
 		
 		var labelRect = new Rect(Screen.width/2-boardWidth/2*0.9f, Screen.height/8,boardWidth*0.9f,80);
